@@ -1,0 +1,11 @@
+¡CRUD (mantenimiento básico de una tabla) con CodeIgniter!
+https://copypastereference.wordpress.com/2012/03/07/crud-mantenimiento-basico-de-una-tabla-con-codeigniter/
+
+FormIgniter, generador de formularios para codeigniter
+http://uno-de-piera.com/formigniter-creador-de-formularios-para-codeigniter/
+
+Crud Generator en Codeigniter - Foro de elhacker.net
+http://foro.elhacker.net/php/crud_generator_en_codeigniter-t332696.0.html
+
+Grocery CRUD: interesante extensión de CodeIgniter
+http://www.desarrolloweb.com/de_interes/grocery-crud-interesante-extension-codeigniter-6635.html

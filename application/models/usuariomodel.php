@@ -5,7 +5,7 @@
  * @author emillan
  *
  */
-class Usuariomodel extends CI_Model {
+class UsuarioModel extends CI_Model {
 
 	/**
 	 * Constructor

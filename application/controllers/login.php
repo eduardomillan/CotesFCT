@@ -2,7 +2,7 @@
 
 class Login extends CI_Controller {
 
-	const WELCOME_PAGE = "welcome_message";
+	const WELCOME_PAGE = "empresas";
 	const LOGIN_PAGE = "login";
 	
 	/**
@@ -85,3 +85,4 @@ class Login extends CI_Controller {
 		return $this->session->userdata('user');
 	}
 }
+?>

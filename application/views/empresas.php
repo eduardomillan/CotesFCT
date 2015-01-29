@@ -19,7 +19,7 @@
 			$datos = array(
 					'name'        => 'searchtext',
 					'id'          => 'searchtext',
-					'value'       => $this->input->post('searchtext'),
+					'value'       => $this->session->userdata('searchtext'),
 					'size'        => '25',
 			);
 			echo form_input($datos);
@@ -31,12 +31,54 @@
 			</p>
 			<p id="results">
 			<?php
-			if (!empty($empresaslist)) {
+			if (!empty($searchtext)) {
+				echo "<div id='summary'>";
 				echo "Resultado: ";
-				echo count($empresaslist);
+				echo $total;
+				echo "</div>";
+			}
+				
+			if (!empty($empresaslist)) {
+				echo "<div id='results'>";
+				$this->table->set_heading('Familia', 'Empresa'); //crea la primera fila de la tabla con el encabezado
+				$tmp = array ( 'table_open'  => '<table border="0" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
+				$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
+				
+				foreach($empresaslist as $dato):
+					$row = NULL;
+					$row['Familia'] = $dato->familia;
+					$row['Empresa'] = $dato->empresa;
+					$this->table->add_row($row); //agregamos la celda a la tabla por cada iteracion
+				endforeach;
+				
+				echo $this->table->generate(); //cuando termina generamos la tabla a partir del vector
+				
+				echo $this->pagination->create_links(); //creamos los links para las paginas
+				echo "</div>";
 			}
 			?>
-			<p>
+			<?php
+			/*
+			<div id="results">
+				<table>
+					<thead>
+						<tr>
+							<th>Familia</th>
+							<th>Empresa</th>
+							<th>Gerente</th>
+							<th>Población</th>
+							<th>Teléfono</th>
+							<th>CIF</th>
+							<th>&nbsp;</th>
+							</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			 */ 
+			?>
+			</p>
 		</div>
 	</div>
 </body>

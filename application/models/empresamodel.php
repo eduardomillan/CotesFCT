@@ -30,12 +30,11 @@ class EmpresaModel extends CI_Model {
 		$this->db->or_like('lower(ciutat)', $param);
 		
 		$res = $this->db->get()->result();
-		if ( is_array($res) && count($res) >= 1) {
+		if (is_array($res) && count($res) >= 1) {
 			return $res;
 		} else {
 			return NULL;
 		}
 	}
 }
-
-?> 
+?>

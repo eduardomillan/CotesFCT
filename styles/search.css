@@ -1,0 +1,78 @@
+.logo {
+    float:left;
+}
+.closeSession {
+    float:right;
+}
+.container{
+    float:left;
+}
+html {
+    background: none repeat scroll 0% 0% #F1F1F1;
+}
+body, form #username, form #password {
+    font-family: "Open Sans","Helvetica Neue","Arial",sans;
+}
+body {
+    background: none repeat scroll 0% 0% #F1F1F1;
+    min-width: 0px;
+    color: #444;
+    font-family: "Open Sans",sans-serif;
+    font-size: 13px;
+    line-height: 1.4em;
+}
+body, html {
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+a {
+	text-decoration: none;
+	color: #999;
+	transition-property: border, #F6F4F2, color;
+	transition-duration: 0.05s;
+	transition-timing-function: ease-in-out;
+	outline: 0px none;
+}
+input {
+	border: 1px solid #DDD;
+	border-radius: 0px;
+	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.07) inset;
+	background-color: #FFF;
+	color: #333;
+	outline: 0px none;
+	transition: border-color 0.05s ease-in-out 0s;
+	box-sizing: border-box;
+	font-weight: inherit;
+}
+input[type="submit"]{
+	height: 30px;
+	line-height: 28px;
+	padding: 0px 12px 2px;
+	vertical-align: baseline;
+	background: none repeat scroll 0% 0% #2EA2CC;
+	border-color: #0074A2;
+	box-shadow: 0px 1px 0px rgba(120, 200, 230, 0.5) inset, 0px 1px 0px rgba(0, 0, 0, 0.15);
+	color: #FFF;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 13px;
+	margin: 0px;
+	cursor: pointer;
+	border-width: 1px;
+	border-style: solid;
+	border-radius: 3px;
+	white-space: nowrap;
+	box-sizing: border-box;	
+	font-family: inherit;
+	font-weight: inherit;	
+}
+label + a, fieldset label, label {
+    vertical-align: middle;
+}
+label {
+    cursor: pointer;
+}
+p {
+    line-height: 1.5;
+}

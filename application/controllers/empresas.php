@@ -1,6 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Empresas extends CI_Controller {
 	
+	const SELF_PAGE = "empresas";
+	const SITE_URI = "empresas/search";
+	const PAGE_ROWS = 25;
+
+
 	/**
 	 * Constructor
 	 */
@@ -13,7 +18,7 @@ class Empresas extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->load->view('empresas');
+		$this->load->view(self::SELF_PAGE);
 	}
 	
 	
@@ -37,28 +42,30 @@ class Empresas extends CI_Controller {
 			//$this->session->set_userdata('searchtext', $searchtext);
 			$data['searchtext'] = $searchtext;
 			//Configuración de la paginación
-			$config['base_url'] = base_url().'index.php/empresas/search/'; //establecemos la URL para las paginas
-			$config['per_page'] = '25'; //cantidad de filas a mostrar por pagina
+			$config['base_url'] = site_url(self::SITE_URI); //establecemos la URL para las paginas
+			$config['per_page'] = self::PAGE_ROWS; //cantidad de filas a mostrar por pagina
 			$config['first_link'] = '|<';
 			$config['last_link'] = '>|';
 					
 			//Búsqueda			
 			$results = $this->empm->listEmpresasByText($searchtext);
 			
-			
+			//Total
 			$total = count($results);
 			$config['total_rows'] = $total;
 			$data['total'] = $total;
 			
+			//Paginación
 			$this->pagination->initialize($config); // le paso el vector con mis configuraciones al paginador
 					
+			//Array de resultados
 			if ($total > 0) {
-				$data['empresaslist'] = array_slice($results, $this->uri->segment(3), $config['per_page']);
+				$data['empresaslist'] = array_slice($results, $this->uri->segment(3), self::PAGE_ROWS);
 			}
 		}
 		
 		$this->session->set_userdata('searchtext', $searchtext);
-		$this->load->view('empresas', $data);
+		$this->load->view(self::SELF_PAGE, $data);
 	}
 }
 ?>

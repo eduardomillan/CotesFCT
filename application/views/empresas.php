@@ -3,10 +3,13 @@
 <head>
 <meta charset="utf-8">
 <title>FCT Cotes Baixes - Empresas</title>
-<link rel="stylsheet" type="text/css"
-	href="<?php echo base_url();?>styles/codeigniter.css">
+<link rel="stylsheet" type="text/css" href="<?php echo base_url('styles/search.css');?>" media="screen" />
 </head>
 <body>
+	
+	<?php $this->load->view('top');?>
+
+	<br />
 
 	<div id="container">
 		<h2>Búsqueda de empresas</h2>
@@ -39,16 +42,19 @@
 			}
 				
 			if (!empty($empresaslist)) {
-				echo "<div id='results'>";
-				$this->table->set_heading('Familia', 'Empresa'); //crea la primera fila de la tabla con el encabezado
+				echo "<div id='dataTable'>";
+				$this->table->set_heading('Familia','Empresa','Gerente','Población','Telf.','CIF',''); //crea la primera fila de la tabla con el encabezado
 				$tmp = array ( 'table_open'  => '<table border="0" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
 				$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
 				
 				foreach($empresaslist as $dato):
-					$row = NULL;
-					$row['Familia'] = $dato->familia;
-					$row['Empresa'] = $dato->empresa;
-					$this->table->add_row($row); //agregamos la celda a la tabla por cada iteracion
+				
+					$link_info = anchor("empresas/info/".$dato->id, img("images/ico_m_info.png"));
+					$link_edit = anchor("empresas/edit/".$dato->id, img("images/ico_m_editar.png"));
+				
+					$this->table->add_row($dato->familia,$dato->empresa,
+							$dato->responsable,$dato->ciutat,$dato->telf,$dato->cif,
+							$link_info.$link_edit);
 				endforeach;
 				
 				echo $this->table->generate(); //cuando termina generamos la tabla a partir del vector

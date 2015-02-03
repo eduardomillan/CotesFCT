@@ -89,7 +89,7 @@
 			
 		if (!empty($empresaslist)) {
 			echo "<div id='dataTable'>";
-			$this->table->set_heading('Nº','Familia','Empresa','Gerente','Población','Telf.','CIF','Concierto',''); //crea la primera fila de la tabla con el encabezado
+			$this->table->set_heading('Nº','Familia','Empresa','Gerente','Población','Telf.','CIF','Conc.',''); //crea la primera fila de la tabla con el encabezado
 			$tmp = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
 			$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
 			

@@ -1,10 +1,14 @@
 <style type="text/css">
 #logo {
+	background-color: #2EA2CC;
 }
 #closeSession {
 	position: absolute;
 	top: 5px;
 	right: 15px;
+}
+#closeSession a {
+	color: white;
 }
 #advancedSearch {
 	font-size: 12px;
@@ -23,7 +27,16 @@
 	padding-right: 2px;
 	position: relative;
 }
+#container h2 {
+	font-size: 22px;
+	position: absolute;
+	top: 5px;
+	width: 99%;
+	color: white;
+	text-align: center;
+}
 #search {
+	margin-top: 20px;
 	position: relative;
 	left: 50px;
 }
@@ -76,7 +89,7 @@ body, form select, form input[type="text"] {
 body {
     background: none repeat scroll 0% 0% #F1F1F1;
     min-width: 0px;
-    color: #444;#
+    color: #444;
     font-family: "Open Sans",sans-serif;
     font-size: 13px;
     line-height: 1.4em;
@@ -118,7 +131,7 @@ input[type="submit"]{
 	color: #FFF;
 	text-decoration: none;
 	display: inline-block;
-	font-size: , form #password13px;
+	font-size: 13px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;

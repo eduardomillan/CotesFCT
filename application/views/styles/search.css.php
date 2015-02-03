@@ -1,25 +1,86 @@
-.logo {
-    float:left;
+<style type="text/css">
+#logo {
 }
-.closeSession {
-    float:right;
+#closeSession {
+	position: absolute;
+	top: 5px;
+	right: 15px;
 }
-.container{
-    float:left;
+#advancedSearch {
+	font-size: 12px;
+}
+#searchHelp {
+	font-size: 10px;
+	color: grey;
+	font-style: italic;
+}
+#container{
+	width: 80%;
+	height: 90%;
+	margin: 0 auto; /* Centrar */
+	background-color: white;
+	padding-left: 5px;
+	padding-right: 2px;
+	position: relative;
+}
+#search {
+	position: relative;
+	left: 50px;
+}
+#typeOfSearch {
+}
+#searchHelp {
+	position: relative;
+	left: 75px;
+	top: -20px;
+}
+#summary {
+	margin-top: 10px;
+	margin-bottom: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	position: relative;
+	left: 15px;	
+}
+#total {
+	font-weight: bold;
+	color: blue;
+}
+#results {
+}
+#dataTable, #dataTable table {
+	margin: 0 auto;
+}
+#dataTable table {
+	width: 99%;
+}
+#pagination {
+	margin-top: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	text-align: center;
+}
+#pagination a, #pagination strong {
+	margin-left: 10px;
+	margin-right: 10px;
+}
+#pagination a {
+	color: blue;
 }
 html {
     background: none repeat scroll 0% 0% #F1F1F1;
 }
-body, form #username, form #password {
+body, form select, form input[type="text"] {
     font-family: "Open Sans","Helvetica Neue","Arial",sans;
 }
 body {
     background: none repeat scroll 0% 0% #F1F1F1;
     min-width: 0px;
-    color: #444;
+    color: #444;#
     font-family: "Open Sans",sans-serif;
     font-size: 13px;
     line-height: 1.4em;
+    margin: 20px;
 }
 body, html {
     height: 100%;
@@ -28,13 +89,13 @@ body, html {
 }
 a {
 	text-decoration: none;
-	color: #999;
+	color: blue;
 	transition-property: border, #F6F4F2, color;
 	transition-duration: 0.05s;
 	transition-timing-function: ease-in-out;
 	outline: 0px none;
 }
-input {
+select, input {
 	border: 1px solid #DDD;
 	border-radius: 0px;
 	box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.07) inset;
@@ -44,6 +105,7 @@ input {
 	transition: border-color 0.05s ease-in-out 0s;
 	box-sizing: border-box;
 	font-weight: inherit;
+	margin: 5px;
 }
 input[type="submit"]{
 	height: 30px;
@@ -56,8 +118,7 @@ input[type="submit"]{
 	color: #FFF;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 13px;
-	margin: 0px;
+	font-size: , form #password13px;
 	cursor: pointer;
 	border-width: 1px;
 	border-style: solid;
@@ -76,3 +137,4 @@ label {
 p {
     line-height: 1.5;
 }
+</style>

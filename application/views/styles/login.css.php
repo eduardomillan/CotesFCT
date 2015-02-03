@@ -1,3 +1,4 @@
+<style type="text/css">
 html {
     background: none repeat scroll 0% 0% #F1F1F1;
 }
@@ -101,3 +102,4 @@ a {
 	transition-timing-function: ease-in-out;
 	outline: 0px none;
 }
+</style>

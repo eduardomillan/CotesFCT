@@ -3,22 +3,25 @@
 <head>
 <meta charset="utf-8">
 <title>FCT Cotes Baixes - Empresas</title>
-<link rel="stylsheet" type="text/css" href="<?php echo base_url('styles/search.css');?>" media="screen" />
+<?php $this->load->view('styles/search.css.php');?>
 </head>
 <body>
 	
-	<?php $this->load->view('top');?>
-
-	<br />
-
 	<div id="container">
+		<?php $this->load->view('top');?>
 		<h2>Búsqueda de empresas</h2>
-		<div id="body">
-			<p id="search">
+		<div id="search">
+		
 			<?php
-			echo form_open("empresas/search");
+			//Destino del form
+			if (empty($advancedsearch)) {
+				echo form_open("empresas/search");
+			} else {
+				echo form_open("empresas/advancedSearch");
+			}
+			
 			//Texto
-			echo form_label('Búsqueda', 'searchtext');
+			echo form_label('Búsqueda: ', 'searchtext');
 			$datos = array(
 					'name'        => 'searchtext',
 					'id'          => 'searchtext',
@@ -27,64 +30,90 @@
 			);
 			echo form_input($datos);
 			
+			
+			//Familias y concierto
+			if (!empty($advancedsearch)) {
+				//Familias
+				echo form_label('Familia: ', 'searchfamilia');
+				
+				$options = array();
+				$options[''] = '';
+				foreach($familiaslist as $fam):
+					$options[$fam->nombre] = $fam->nombre;
+				endforeach;
+				
+				echo form_dropdown('searchfamilia', $options, $this->session->userdata('searchfamilia'));
+				
+				//Concierto
+				echo form_label('Concierto: ', 'searchconcert');
+				
+				$datos = array(
+						'name'        => 'searchconcert',
+						'id'          => 'searchconcert',
+						'value'       => $this->session->userdata('searchconcert'),
+						'size'        => '15',
+				);
+				echo form_input($datos);
+			}
+			
 			echo form_submit('submit', 'Buscar');
 			
 			echo form_close(); 
 			?>
-			</p>
-			<p id="results">
-			<?php
-			if (!empty($searchtext)) {
-				echo "<div id='summary'>";
-				echo "Resultado: ";
-				echo $total;
-				echo "</div>";
-			}
-				
-			if (!empty($empresaslist)) {
-				echo "<div id='dataTable'>";
-				$this->table->set_heading('Familia','Empresa','Gerente','Población','Telf.','CIF',''); //crea la primera fila de la tabla con el encabezado
-				$tmp = array ( 'table_open'  => '<table border="0" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
-				$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
-				
-				foreach($empresaslist as $dato):
-				
-					$link_info = anchor("empresas/info/".$dato->id, img("images/ico_m_info.png"));
-					$link_edit = anchor("empresas/edit/".$dato->id, img("images/ico_m_editar.png"));
-				
-					$this->table->add_row($dato->familia,$dato->empresa,
-							$dato->responsable,$dato->ciutat,$dato->telf,$dato->cif,
-							$link_info.$link_edit);
-				endforeach;
-				
-				echo $this->table->generate(); //cuando termina generamos la tabla a partir del vector
-				
-				echo $this->pagination->create_links(); //creamos los links para las paginas
-				echo "</div>";
-			}
-			?>
-			<?php
-			/*
-			<div id="results">
-				<table>
-					<thead>
-						<tr>
-							<th>Familia</th>
-							<th>Empresa</th>
-							<th>Gerente</th>
-							<th>Población</th>
-							<th>Teléfono</th>
-							<th>CIF</th>
-							<th>&nbsp;</th>
-							</tr>
-					</thead>
-					<tbody>
-					</tbody>
-				</table>
+			<div id="typeOfSearch">
+			<?php if (empty($advancedsearch)) {?>
+			<div id="advancedSearch">
+				<a href="<? echo site_url('empresas/advancedSearch')?>">Avanzada</a>
 			</div>
-			 */ 
+			<?php
+			} else { 
 			?>
-			</p>
+			<div id="simpleSearch">
+				<a href="<? echo site_url('empresas/search')?>">Simple</a>
+			</div>		
+			<?php
+			} 
+			?>				
+			</div>
+			<div id="searchHelp">Busca en: Empresa, gerente, población, CIF</div>
+			</div>
+		
+		<div id="results">
+		<?php
+		if (isset($total) && $total >= 0) {
+			echo "<div id='summary'>";
+			echo "Total: <span id='total'>";
+			echo $total;
+			echo "</span></div>";
+		}
+			
+		if (!empty($empresaslist)) {
+			echo "<div id='dataTable'>";
+			$this->table->set_heading('Nº','Familia','Empresa','Gerente','Población','Telf.','CIF','Concierto',''); //crea la primera fila de la tabla con el encabezado
+			$tmp = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
+			$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
+			
+			$cont = $this->uri->segment(3) + 1;
+			foreach($empresaslist as $dato):
+			
+				$link_info = anchor("empresas/info/".$dato->id, img("images/ico_m_info.png"));
+				$link_edit = anchor("empresas/edit/".$dato->id, img("images/ico_m_editar.png"));
+			
+				$this->table->add_row($cont,$dato->familia,$dato->empresa,
+						$dato->responsable,$dato->ciutat,$dato->telf,
+						$dato->cif,$dato->concert,
+						$link_info.$link_edit);
+				$cont++;
+			endforeach;
+			
+			echo $this->table->generate(); //cuando termina generamos la tabla a partir del vector
+			
+			echo "<div id='pagination'>";
+			echo $this->pagination->create_links(); //creamos los links para las paginas
+			echo "</div>";
+			echo "</div>";
+		}
+		?>
 		</div>
 	</div>
 </body>

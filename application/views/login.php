@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>FCT Cotes Baixes - Entrada</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('styles/login.css')?>" media="screen" />
+	<?php $this->load->view('styles/login.css.php');?>
 </head>
 <body class="login">
 <div id="login">

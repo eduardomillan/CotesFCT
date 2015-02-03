@@ -37,7 +37,7 @@ class Empresas extends CI_Controller {
 			$searchtext = $this->input->post('searchtext');
 		}
 		
-		if (empty($searchtext)) {
+		if (!strlen($searchtext)) {
 			//Do nothing
 		} else {
 			//Configuración de la paginación
@@ -91,7 +91,7 @@ class Empresas extends CI_Controller {
 		$data['familiaslist'] = $this->empm->listFamilias();
 		
 		
-		if (empty($searchtext) && empty($searchfamilia) && empty($searchconcert)) {
+		if (!strlen($searchtext) && !strlen($searchfamilia) && !strlen($searchconcert)) {
 			//Do nothing
 		} else {
 			//Configuración de la paginación

@@ -23,14 +23,14 @@
 	height: 90%;
 	margin: 0 auto; /* Centrar */
 	background-color: white;
-	padding-left: 5px;
-	padding-right: 2px;
+	padding-left: 1px;
+	padding-right: 1px;
 	position: relative;
 }
-#container h2 {
-	font-size: 22px;
+#container h1 {
+	font-size: 28px;
 	position: absolute;
-	top: 5px;
+	top: 1px;
 	width: 99%;
 	color: white;
 	text-align: center;
@@ -66,6 +66,24 @@
 }
 #dataTable table {
 	width: 99%;
+	border-collapse: collapse;
+	border-color: #7FE3EB;
+}
+#dataTable table th {
+	color: white;
+	text-align: center;
+	background: #2EA2CC;
+	border-color: white;
+}
+#dataTable table tr:hover {
+  background: #97F9FF;
+}
+#dataTable table td {
+	max-width: 200px;
+    white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	border-color: #C2FCFF;
 }
 #pagination {
 	margin-top: 10px;

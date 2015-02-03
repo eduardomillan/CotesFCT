@@ -9,7 +9,7 @@
 	
 	<div id="container">
 		<?php $this->load->view('top');?>
-		<h2>Búsqueda de empresas</h2>
+		<h1>Búsqueda de empresas</h1>
 		<div id="search">
 		
 			<?php
@@ -116,5 +116,6 @@
 		?>
 		</div>
 	</div>
+	<?php $this->load->view('footer'); ?>
 </body>
 </html>

@@ -54,15 +54,15 @@ class EmpresaModel extends CI_Model {
 		
 		$this->db->where('id >', 0);
 
-		if (!empty($param)) {
+		if (strlen($param)) {
 			$this->db->where("(lower(empresa) like '%$param%'", NULL, FALSE);
 			$this->db->or_where("lower(responsable) like '%$param%'", NULL, FALSE);
 			$this->db->or_where("lower(ciutat) like '%$param%'", NULL, FALSE);
 			$this->db->or_where("lower(cif) like '%$param%')", NULL, FALSE);
 		}
 
-		if (!empty($familia)) $this->db->where("familia", $familia);
-		if (!empty($concert)) $this->db->where("concert", $concert);
+		if (strlen($familia)) $this->db->where("familia", $familia);
+		if (strlen($concert)) $this->db->where("concert", $concert);
 		
 		$this->db->order_by('familia,empresa');
 		

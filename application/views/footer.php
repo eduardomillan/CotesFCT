@@ -1,0 +1,1 @@
+<p class="footer">Página generada en <strong>{elapsed_time}</strong> segundos</p>

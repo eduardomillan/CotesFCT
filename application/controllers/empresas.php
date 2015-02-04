@@ -2,6 +2,7 @@
 class Empresas extends CI_Controller {
 	
 	const SELF_PAGE = "empresas";
+	const SHEET_PAGE = "empresa_sheet";
 	const PAGE_ROWS = 10;
 
 
@@ -128,6 +129,22 @@ class Empresas extends CI_Controller {
 		$this->session->set_userdata('searchconcert', $searchconcert);
 		
 		$this->load->view(self::SELF_PAGE, $data);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public function info() {
+		$this->load->view(self::SHEET_PAGE);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public function edit() {
+		$this->load->view(self::SHEET_PAGE);
 	}
 }
 ?>

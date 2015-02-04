@@ -88,5 +88,23 @@ class EmpresaModel extends CI_Model {
 			return NULL;
 		}
 	}
+	
+	/**
+	* Obtains the 'empresa' row given its id or CIF
+	* @param param
+	* 
+	*/
+	function getEmpresaByIdOrCIF($param) {
+		if (strlen($id))
+		$this->db->from(self::EMPRESA_TABLE);
+		$this->db->where("id", $param);
+		$this->db->where("cif", $param);
+		$res = $this->db->get()->result();
+		if (is_array($res) && count($res) >= 1) {
+			return $res->row();
+		} else {
+			return NULL;
+		}
+	}
 }
 ?>

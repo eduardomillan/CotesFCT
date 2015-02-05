@@ -1,9 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Empresas extends CI_Controller {
 	
+	const MODE_READ = 'read';
 	const SELF_PAGE = "empresas";
 	const SHEET_PAGE = "empresa_sheet";
 	const PAGE_ROWS = 10;
+	
 
 
 	/**
@@ -11,7 +13,10 @@ class Empresas extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
+		//$this->load->library('console');
+		//$this->output->enable_profiler(TRUE);
 		$this->load->model('empresamodel','empm');
+				
 	}
 	
 	/**
@@ -133,10 +138,19 @@ class Empresas extends CI_Controller {
 	
 	
 	/**
-	 * 
+	 * Show information about the 'empresa'
 	 */
 	public function info() {
-		$this->load->view(self::SHEET_PAGE);
+		
+		//Empresa
+		$empresa = $this->empm->getEmpresaByIdOrCIF($this->uri->segment(3));
+		$data['empresa'] = $empresa;
+		$data['modo'] = self::MODE_READ;
+		
+		//Familias
+		$data['familiaslist'] = $this->empm->listFamilias();
+		
+		$this->load->view(self::SHEET_PAGE, $data);
 	}
 	
 	

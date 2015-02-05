@@ -95,13 +95,12 @@ class EmpresaModel extends CI_Model {
 	* 
 	*/
 	function getEmpresaByIdOrCIF($param) {
-		if (strlen($id))
-		$this->db->from(self::EMPRESA_TABLE);
-		$this->db->where("id", $param);
-		$this->db->where("cif", $param);
-		$res = $this->db->get()->result();
-		if (is_array($res) && count($res) >= 1) {
-			return $res->row();
+		if (strlen($param)) {
+			$this->db->from(self::EMPRESA_TABLE);
+			$this->db->where("id", $param);
+			$this->db->or_where("cif", $param);
+			$res = $this->db->get()->row();
+			return $res;
 		} else {
 			return NULL;
 		}

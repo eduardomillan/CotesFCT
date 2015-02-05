@@ -5,21 +5,21 @@
 <body>
 <div id="container">
    <?php $this->load->view('top');?>
-   <h1>Ficha de empresa</h1>
+   <h1>Ficha de empresa (<span id="modo">modo</span>)</h1>
    <div id="form">
       <?php echo form_open("empresas/search"); ?>
-   	<h2>55 - Nombre de la empresa</h2>
+   	<h2><span id="id">55</span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
 		
       <fieldset id="basic">
       <legend>Datos básicos</legend>
       <div>
             <label for="cif">CIF/NIF</label>
-         <input type="text" id="cif" name="cif" value="" />
+         <input type="text" id="cif" name="cif" value="<?php $empresa->cif ?>" />
       </div>
 	    
       <div>
             <label for="empresa">Empresa</label>
-         <input type="text" id="empresa" name="empresa" value="" />
+         <input type="text" id="empresa" name="empresa" value="<?php $empresa->empresa ?>" />
       </div>
 
      	<div>
@@ -91,12 +91,15 @@
       </div>	    
 	    
       <div>
-            <label for="familia">Familia</label>
-         <select id="familia" name="familia">
-            <option></option>
-            <option>AUT</option>
-            <option>TEXTIL</option>
-         </select>
+         <label for="familia">Familia</label>
+         <?php
+			$options = array();
+			$options[''] = '';
+			foreach($familiaslist as $fam):
+				$options[$fam->nombre] = $fam->nombre;
+			endforeach;
+			echo form_dropdown('familia', $options);
+			?>
       </div>
 
       <div>
@@ -151,4 +154,5 @@
       <?php echo form_close(); ?>
    </div>
 </div>
+<?php if($modo == 'read') { $this->load->view('js/empresa_sheet_read.js.php'); }?>
 <?php $this->load->view('footer'); ?>

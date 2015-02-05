@@ -132,7 +132,6 @@ input[type="submit"], .button {
 	font-weight: inherit;	
 }
 input[type="submit"]:active, .button:active {
-	color: grey;
 	background: white;
 }
 input[type="text"]:focus, select:focus, textarea:focus {

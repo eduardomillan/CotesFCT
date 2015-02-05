@@ -34,15 +34,14 @@ form {
 	position: relative;
 }
 form #buttons {
-	clear: both;
 	text-align: right;
 	padding-right: 1em;
-	padding-top: 1em;
+	padding-top: 3em;
 }
 form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior {
 	width: 5em;
 }
-form #cif, form #nif_gerent, form #nif_instructor, 
+form #cif, form #nif_gerent, form #nif_instructor, form #responsable, 
 form #telf, form #fax, form #curs, form #carrec_instructor 
 {
 	width: 10em;
@@ -50,10 +49,10 @@ form #telf, form #fax, form #curs, form #carrec_instructor
 form #activitat {
 	width: 15em;
 }
-form #horari_laboral, form #provincia, form #nom_comercial, form #responsable {
+form #horari_laboral, form #provincia {
 	width: 20em;
 }
-form #empresa, form #direccion, form #ciutat {
+form #empresa, form #nom_comercial, form #direccion, form #ciutat {
 	width: 30em;
 }
 form textarea {

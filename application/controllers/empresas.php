@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Empresas extends CI_Controller {
 	
+	const MODE_UPDATE = 'update';
 	const MODE_READ = 'read';
 	const SELF_PAGE = "empresas";
 	const SHEET_PAGE = "empresa_sheet";
@@ -13,8 +14,8 @@ class Empresas extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		//$this->load->library('console');
-		//$this->output->enable_profiler(TRUE);
+		$this->load->library('console');
+		$this->output->enable_profiler(TRUE);
 		$this->load->model('empresamodel','empm');
 				
 	}
@@ -24,7 +25,7 @@ class Empresas extends CI_Controller {
 	 */
 	public function index()
 	{
-		search();
+		$this->search();
 	}
 	
 	
@@ -37,7 +38,7 @@ class Empresas extends CI_Controller {
 		$data['total'] = -1;
 		$data['advancedsearch'] = NULL;
 		
-		if (empty($_POST)) {
+		if (empty($_POST['searchtext'])) {
 			$searchtext = $this->session->userdata('searchtext');
 		} else {
 			$searchtext = $this->input->post('searchtext');
@@ -141,11 +142,28 @@ class Empresas extends CI_Controller {
 	 * Show information about the 'empresa'
 	 */
 	public function info() {
-		
+		$this->show(self::MODE_READ);
+	}
+	
+	
+	/**
+	 * 
+	 */
+	public function edit() {
+		$this->show(self::MODE_UPDATE);
+	}
+	
+	
+	/**
+	 * Show a 'empresa' and set the mode
+	 * @param unknown $mode
+	 */
+	private function show($mode) {
+
 		//Empresa
 		$empresa = $this->empm->getEmpresaByIdOrCIF($this->uri->segment(3));
 		$data['empresa'] = $empresa;
-		$data['modo'] = self::MODE_READ;
+		$data['modo'] = $mode;
 		
 		//Familias
 		$data['familiaslist'] = $this->empm->listFamilias();
@@ -155,10 +173,44 @@ class Empresas extends CI_Controller {
 	
 	
 	/**
-	 * 
+	 * Updates the data
 	 */
-	public function edit() {
-		$this->load->view(self::SHEET_PAGE);
+	public function update() {
+		
+		/*
+		$this->form_validation->set_rules('nombre', 'Nombre', 'required|trim');
+		$this->form_validation->set_rules('pass', 'Clave', 'required|trim');
+		$this->form_validation->set_rules('nivel', 'Nivel', 'max_length[11]');
+			
+		$this->form_validation->set_error_delimiters('<br /><span class="error">', '</span>');
+		
+		if ($this->form_validation->run() == FALSE) {
+			$this->load->view(self::SHEET_PAGE);
+		} else {// passed validation proceed to post success logic
+		*/
+
+			// build array for the model
+			/*	
+			$form_data = array(
+					'nombre' => set_value('nombre'),
+					'pass' => set_value('pass'),
+					'nivel' => set_value('nivel')
+			);
+			*/
+			$id = $this->input->post('id');
+			$data = $this->input->post(); 
+			
+			// run insert model to write data to db
+			if ($this->empm->update($id, $data) == 1) // the information has therefore been successfully saved in the db
+			{
+				$this->search();   // or whatever logic needs to occur
+			}
+			else
+			{
+				echo 'An error occurred saving your information. Please try again later';
+				// Or whatever error handling is necessary
+			}
+		//}
 	}
 }
 ?>

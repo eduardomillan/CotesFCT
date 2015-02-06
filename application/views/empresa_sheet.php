@@ -7,19 +7,20 @@
    <?php $this->load->view('top');?>
    <h1>Ficha de empresa (<span id="modo">modo</span>)</h1>
    <div id="form">
-      <?php echo form_open("empresas/search"); ?>
-   	<h2><span id="id">55</span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
+      <?php echo form_open("empresas/$modo"); ?>
+   	<h2><span id="idNum">55</span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
+		<input type="hidden" name="id" value="" />
 		
       <fieldset id="basic">
       <legend>Datos básicos</legend>
       <div>
             <label for="cif">CIF/NIF</label>
-         <input type="text" id="cif" name="cif" value="<?php $empresa->cif ?>" />
+         <input type="text" id="cif" name="cif" value="" />
       </div>
 	    
       <div>
             <label for="empresa">Empresa</label>
-         <input type="text" id="empresa" name="empresa" value="<?php $empresa->empresa ?>" />
+         <input type="text" id="empresa" name="empresa" value="" />
       </div>
 
      	<div>
@@ -118,7 +119,7 @@
       </div>       
       </fieldset>
       
-      <fieldset id="instructor">
+      <fieldset id="theInstructor">
       	<legend>Instructor</legend>
       <div>
             <label for="instructor">Nombre</label>
@@ -142,17 +143,24 @@
 	    
       	<div>
             <label for="observacions">Observaciones</label>
-         	<textarea id="observacions" rows="3" cols="60"></textarea>
+         	<textarea id="observacions" name="observacions" rows="3" cols="60"></textarea>
       	</div>	 
       </fieldset>   
 
    	<div id="buttons">
-   	<input class="button" type="submit" value="Guardar" />
-   	<a class="button" href="<?php echo site_url('empresas/search')?>">Volver ></a>
+   	<input id="buttonSave" class="button" type="submit" value="Guardar" />
+   	<a id="buttonBack" class="button" href="<?php echo site_url('empresas/search')?>">Volver ></a>
    	</div>
 
       <?php echo form_close(); ?>
    </div>
 </div>
-<?php if($modo == 'read') { $this->load->view('js/empresa_sheet_read.js.php'); }?>
+<?php if($modo == 'read') { 
+		$this->load->view('js/empresa_sheet_show.js.php'); 
+		$this->load->view('js/empresa_sheet_read.js.php'); 
+	} else if ($modo == 'update') {
+		$this->load->view('js/empresa_sheet_show.js.php'); 
+	}
+?>
 <?php $this->load->view('footer'); ?>
+ 

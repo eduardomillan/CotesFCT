@@ -30,6 +30,14 @@ fieldset#other {
 	width: 97%;
    right: 0;	
 }
+fieldset#fct {
+	clear: both;
+	width: 47%;
+}
+fieldset#theInstructor {
+	width: 47%;
+}
+
 form {
 	position: relative;
 }
@@ -42,8 +50,11 @@ form #buttons {
 form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior {
 	width: 5em;
 }
-form #cif, form #nif_gerent, form #nif_instructor, 
-form #telf, form #fax, form #curs, form #carrec_instructor 
+form #curs {
+	width: 8em;
+}
+form #cif, form #nif_gerent, form #instructor, form #nif_instructor, 
+form #telf, form #fax, form #carrec_instructor 
 {
 	width: 10em;
 }

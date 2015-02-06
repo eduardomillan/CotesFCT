@@ -92,13 +92,25 @@
 		$cont = $this->uri->segment(3) + 1;
 		foreach($empresaslist as $dato):
 		
-			$link_info = anchor("empresas/info/".$dato->id, img("images/ico_m_info.png"));
-			$link_edit = anchor("empresas/edit/".$dato->id, img("images/ico_m_editar.png"));
+			$link_info = anchor("empresas/info/".$dato->id, img(array("src"=>"images/ico_m_info.png", "alt"=>"Información", "title"=>"Información")));
+			$link_edit = "";
+			$link_del = "";
+			
+			$nivel = (int) $this->session->userdata("nivel");
+			
+			//Control de acceso por nivel de usuario
+			if ($nivel <= 3) {
+				$link_edit = anchor("empresas/edit/".$dato->id, img(array("src"=>"images/ico_m_editar.png", "alt"=>"Editar", "title"=>"Editar")));
+			}
+			
+			if ($nivel == 1) {
+				$link_del = anchor("empresas/delete/".$dato->id, img(array("src"=>"images/ico_m_del.png", "alt"=>"Borrar", "title"=>"Borrar")));
+			}
 		
 			$this->table->add_row($cont,$dato->familia,$dato->empresa,
 					$dato->responsable,$dato->ciutat,$dato->telf,
 					$dato->cif,$dato->concert,
-					$link_info.$link_edit);
+					$link_info.$link_edit.$link_del);
 			$cont++;
 		endforeach;
 		

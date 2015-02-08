@@ -84,5 +84,8 @@ class Login extends CI_Controller {
 	private function isUserSession() {
 		return $this->session->userdata('user');
 	}
+	
+	
+	
 }
 ?>

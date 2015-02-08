@@ -90,8 +90,8 @@ class EmpresaModel extends CI_Model {
 	}
 	
 	/**
-	* Obtains the 'empresa' row given its id or CIF
-	* @param param
+	* Obtains the 'empresa' row array given its id or CIF
+	* @param param the id or CIF
 	* 
 	*/
 	function getEmpresaByIdOrCIF($param) {
@@ -99,7 +99,7 @@ class EmpresaModel extends CI_Model {
 			$this->db->from(self::EMPRESA_TABLE);
 			$this->db->where("id", $param);
 			$this->db->or_where("cif", $param);
-			$res = $this->db->get()->row();
+			$res = $this->db->get()->row_array();
 			return $res;
 		} else {
 			return NULL;
@@ -122,6 +122,9 @@ class EmpresaModel extends CI_Model {
 	 * @param unknown $data the rest of the data
 	 */
 	function update($id, $data) {
+		$id = $data['id'];
+		unset($data['id']);
+		
 		$this->db->where('id', $id);
 		return $this->db->update(self::EMPRESA_TABLE, $data);
 	}

@@ -10,6 +10,12 @@
 |
 */
 
+$hook['post_controller_constructor'] = array(
+		'class'    => 'Home',
+		'function' => 'checkLogin',
+		'filename' => 'Home.php',
+		'filepath' => 'hooks'
+);
 
 
 /* End of file hooks.php */

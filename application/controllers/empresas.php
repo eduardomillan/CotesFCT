@@ -1,10 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Empresas extends CI_Controller {
 	
-	const MODE_UPDATE = 'update';
-	const MODE_READ = 'read';
+	const MODE_UPDATE = "update";
+	const MODE_READ = "read";
 	const SELF_PAGE = "empresas";
 	const SHEET_PAGE = "empresa_sheet";
+	const UPDATE_PAGE = "empresa_update";
 	const PAGE_ROWS = 10;
 	
 
@@ -161,9 +162,12 @@ class Empresas extends CI_Controller {
 	private function show($mode) {
 
 		//Empresa
-		$empresa = $this->empm->getEmpresaByIdOrCIF($this->uri->segment(3));
+		$empresaId = $this->uri->segment(3);
+		$data['empresaId'] = $empresaId;
+		$empresa = $this->empm->getEmpresaByIdOrCIF($empresaId);
 		$data['empresa'] = $empresa;
 		$data['modo'] = $mode;
+		
 		
 		//Familias
 		$data['familiaslist'] = $this->empm->listFamilias();
@@ -190,20 +194,12 @@ class Empresas extends CI_Controller {
 		*/
 
 			// build array for the model
-			/*	
-			$form_data = array(
-					'nombre' => set_value('nombre'),
-					'pass' => set_value('pass'),
-					'nivel' => set_value('nivel')
-			);
-			*/
-			$id = $this->input->post('id');
 			$data = $this->input->post(); 
 			
 			// run insert model to write data to db
-			if ($this->empm->update($id, $data) == 1) // the information has therefore been successfully saved in the db
+			if ($this->empm->update($data) == 1) // the information has therefore been successfully saved in the db
 			{
-				$this->search();   // or whatever logic needs to occur
+				$this->load->view(self::UPDATE_PAGE);   // or whatever logic needs to occur
 			}
 			else
 			{

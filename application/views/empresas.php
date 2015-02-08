@@ -104,7 +104,7 @@
 			}
 			
 			if ($nivel == 1) {
-				$link_del = anchor("empresas/delete/".$dato->id, img(array("src"=>"images/ico_m_del.png", "alt"=>"Borrar", "title"=>"Borrar")));
+				//$link_del = anchor("empresas/delete/".$dato->id, img(array("src"=>"images/ico_m_del.png", "alt"=>"Borrar", "title"=>"Borrar")));
 			}
 		
 			$this->table->add_row($cont,$dato->familia,$dato->empresa,

@@ -1,3 +1,13 @@
+<?php
+
+	//Nivel del usuario
+	$nivel = (int) $this->session->userdata("nivel");
+
+	//Comprobar las variables de la página
+	if (!(isset($empresaId) && isset($empresa) && isset($modo))) {
+		redirect("empresas");
+	}
+?>
 <?php $this->load->view('header'); ?>
 <?php $this->load->view('styles/common.css.php');?>
 <?php $this->load->view('styles/sheet.css.php');?>
@@ -5,11 +15,20 @@
 <body>
 <div id="container">
    <?php $this->load->view('top');?>
+
    <h1>Ficha de empresa (<span id="modo">modo</span>)</h1>
+   
    <div id="form">
-      <?php echo form_open("empresas/$modo"); ?>
+      <?php echo form_open("empresas/$modo");?>
    	<h2><span id="idNum">55</span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
 		<input type="hidden" name="id" value="" />
+		
+		<?php if ($nivel <= 3 && $modo == "read") { ?>
+		<div id="buttonEdit">
+				<a class="button" href="<?php echo site_url('empresas/edit/'.$empresaId); ?>">Editar</a>
+		</div>		
+		<?php } ?>
+
 		
       <fieldset id="basic">
       <legend>Datos básicos</legend>
@@ -23,10 +42,15 @@
          <input type="text" id="empresa" name="empresa" value="" />
       </div>
 
-     	<div>
-          <label for="horari_laboral">Horario</label>
-        	<input type="text" id="horari_laboral" name="horari_laboral" value="" />
-     	</div>	   
+      <div>
+            <label for="responsable">Gerente</label>
+         <input type="text" id="responsable" name="responsable" value="" />
+      </div>    
+
+      <div>
+            <label for="nif_gerent">NIF Gerente</label>
+         <input type="text" id="nif_gerent" name="nif_gerent" value="" />
+      </div>  	   
 	    
       <div>
             <label for="nom_comercial">Nombre Comercial</label>
@@ -37,17 +61,12 @@
             <label for="activitat">Actividad</label>
          <input type="text" id="activitat" name="activitat" value="" />
       </div>	     
-	    
-      <div>
-            <label for="responsable">Gerente</label>
-         <input type="text" id="responsable" name="responsable" value="" />
-      </div>    
 
-      <div>
-            <label for="nif_gerent">NIF Gerente</label>
-         <input type="text" id="nif_gerent" name="nif_gerent" value="" />
-      </div>  	   
-      
+     	<div>
+          <label for="horari_laboral">Horario</label>
+        	<input type="text" id="horari_laboral" name="horari_laboral" value="" />
+     	</div>	   
+	    
       </fieldset>
 	    
       <fieldset id="address">
@@ -148,19 +167,23 @@
       </fieldset>   
 
    	<div id="buttons">
-   	<input id="buttonSave" class="button" type="submit" value="Guardar" />
-   	<a id="buttonBack" class="button" href="<?php echo site_url('empresas/search')?>">Volver ></a>
+   		<?php if ($nivel <= 3 && $modo == "update") { ?>
+   			<input id="buttonSave" class="button" type="submit" value="Guardar" />
+   		<?php } ?>
+   	
+   		<a id="buttonBack" class="button" href="<?php echo site_url('empresas')?>">Volver ></a>
    	</div>
 
       <?php echo form_close(); ?>
    </div>
 </div>
-<?php if($modo == 'read') { 
-		$this->load->view('js/empresa_sheet_show.js.php'); 
+<?php 
+	if($modo == "read") { 
 		$this->load->view('js/empresa_sheet_read.js.php'); 
-	} else if ($modo == 'update') {
-		$this->load->view('js/empresa_sheet_show.js.php'); 
+	} else if ($modo == "update") {
+		$this->load->view('js/empresa_sheet_update.js.php'); 
 	}
+	$this->load->view('js/empresa_sheet_show.js.php'); 
 ?>
 <?php $this->load->view('footer'); ?>
  

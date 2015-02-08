@@ -4,11 +4,14 @@
 }
 #closeSession {
 	position: absolute;
-	top: 5px;
+	top: 6px;
 	right: 15px;
 }
 #closeSession a {
 	color: white;
+	
+}
+#closeSession #user {
 	font-weight: bold;
 }
 #container{

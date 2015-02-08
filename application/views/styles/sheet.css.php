@@ -47,6 +47,11 @@ form #buttons {
 	padding-right: 1em;
 	padding-top: 1em;
 }
+form #buttonEdit {
+   position: absolute;
+   top: -0.7em;
+   right: 1em;
+}
 form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior {
 	width: 5em;
 }

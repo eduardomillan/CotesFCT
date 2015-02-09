@@ -121,7 +121,7 @@ class EmpresaModel extends CI_Model {
 	 * @param unknown $id the 'empresa' id
 	 * @param unknown $data the rest of the data
 	 */
-	function update($id, $data) {
+	function update($data) {
 		$id = $data['id'];
 		unset($data['id']);
 		

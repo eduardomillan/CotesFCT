@@ -8,6 +8,8 @@
 	
 	document.getElementById("modo").textContent = "consulta";
 
+	//Hide save button
+	document.getElementById("buttonSave").style.visibility = "hidden";
 	
 	//Set focus
 	document.getElementById("buttonBack").focus();

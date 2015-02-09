@@ -5,10 +5,9 @@
 	document.getElementById("nombreEmpresa").textContent = "<?php echo addslashes($empresa['empresa']); ?>";
 
 	var form1 = document.forms[0];
-	<?php
-		foreach ($empresa as $clave=>$valor) {
-			echo "form1['$clave'].value = \"".addslashes($valor)."\";\r\n";
-		}
-	?>
+	<?php	foreach ($empresa as $clave=>$valor) { ?>
+		if (form1['<?php echo $clave ?>'])
+			form1['<?php echo $clave ?>'].value = "<?php echo addslashes($valor) ?>";
+	<?php	} ?>
 	
 </script>

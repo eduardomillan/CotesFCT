@@ -1,22 +1,21 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Empresas extends CI_Controller {
 	
-	const MODE_UPDATE = "update";
+	const MODE_CREATE = "create";
 	const MODE_READ = "read";
+	const MODE_UPDATE = "update";
 	const SELF_PAGE = "empresas";
 	const SHEET_PAGE = "empresa_sheet";
 	const UPDATE_PAGE = "empresa_update";
 	const PAGE_ROWS = 10;
-	
-
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('console');
-		$this->output->enable_profiler(TRUE);
+		//$this->load->library('console');
+		//$this->output->enable_profiler(TRUE);
 		$this->load->model('empresamodel','empm');
 				
 	}
@@ -154,6 +153,13 @@ class Empresas extends CI_Controller {
 		$this->show(self::MODE_UPDATE);
 	}
 	
+	/**
+	 *
+	 */
+	public function arise() {
+		$this->show(self::MODE_CREATE);
+	}
+	
 	
 	/**
 	 * Show a 'empresa' and set the mode
@@ -161,13 +167,17 @@ class Empresas extends CI_Controller {
 	 */
 	private function show($mode) {
 
-		//Empresa
-		$empresaId = $this->uri->segment(3);
-		$data['empresaId'] = $empresaId;
-		$empresa = $this->empm->getEmpresaByIdOrCIF($empresaId);
-		$data['empresa'] = $empresa;
-		$data['modo'] = $mode;
+		if ($mode == self::MODE_CREATE) {
+			$empresaId = "";
+			$empresa = array();
+		} else {
+			$empresaId = $this->uri->segment(3);
+			$empresa = $this->empm->getEmpresaByIdOrCIF($empresaId);
+		}
 		
+		$data['empresaId'] = $empresaId;
+		$data['empresa'] = $empresa;
+		$data['modo'] = $mode;		
 		
 		//Familias
 		$data['familiaslist'] = $this->empm->listFamilias();
@@ -175,38 +185,74 @@ class Empresas extends CI_Controller {
 		$this->load->view(self::SHEET_PAGE, $data);
 	}
 	
+	/**
+	 * 
+	 */
+	public function update() {
+		$this->save(self::MODE_UPDATE);
+	}
+	
+	/**
+	 *
+	 */
+	public function create() {
+		$this->save(self::MODE_CREATE);
+	}
+	
 	
 	/**
 	 * Updates the data
 	 */
-	public function update() {
+	private function save($mode) {
 		
-		/*
-		$this->form_validation->set_rules('nombre', 'Nombre', 'required|trim');
-		$this->form_validation->set_rules('pass', 'Clave', 'required|trim');
-		$this->form_validation->set_rules('nivel', 'Nivel', 'max_length[11]');
-			
-		$this->form_validation->set_error_delimiters('<br /><span class="error">', '</span>');
+		// build array for the model
+		$userdata = $this->input->post();
+		
+		$this->form_validation->set_rules('empresa', 'Empresa', 'required');$empresaId = $this->uri->segment(3);
+		$this->form_validation->set_rules('cp', 'Código Postasl', 'required');
+		$this->form_validation->set_rules('ciutat', 'Población', 'required');
+		$this->form_validation->set_rules('provincia', 'Provincia', 'required');
+		$this->form_validation->set_rules('telf', 'Teléfono', 'required');
+
+		$this->form_validation->set_error_delimiters('', '');
 		
 		if ($this->form_validation->run() == FALSE) {
-			$this->load->view(self::SHEET_PAGE);
-		} else {// passed validation proceed to post success logic
-		*/
-
-			// build array for the model
-			$data = $this->input->post(); 
 			
+			//Variables de página
+			$empresaId = $userdata['id'];
+			$data['empresaId'] = $empresaId;
+			$data['empresa'] = $userdata;
+			$data['modo'] = $mode;
+			
+			//Familias
+			$data['familiaslist'] = $this->empm->listFamilias();
+			$data['updateResult'] = "notValid";
+			
+			$this->load->view(self::SHEET_PAGE, $data);
+			
+		} else {// passed validation proceed to post success logic
+			
+			$data['updateResult'] = "";
+				
 			// run insert model to write data to db
-			if ($this->empm->update($data) == 1) // the information has therefore been successfully saved in the db
+			if ($mode == self::MODE_CREATE) {
+				$res = $this->empm->create($userdata);
+			} else if ($mode == self::MODE_UPDATE) {
+				$res = $this->empm->update($userdata);
+			}
+			
+			if ($res == 1) // the information has therefore been successfully saved in the db
 			{
-				$this->load->view(self::UPDATE_PAGE);   // or whatever logic needs to occur
+				$data['updateResult'] = "success";
+				$this->load->view(self::UPDATE_PAGE, $data);
 			}
 			else
 			{
-				echo 'An error occurred saving your information. Please try again later';
-				// Or whatever error handling is necessary
+				//An error occurred saving your information
+				$data['updateResult'] = "error";
+				$this->load->view(self::UPDATE_PAGE, $data);
 			}
-		//}
+		}
 	}
 }
 ?>

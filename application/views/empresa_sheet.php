@@ -1,8 +1,7 @@
 <?php
-
 	//Nivel del usuario
 	$nivel = (int) $this->session->userdata("nivel");
-
+	
 	//Comprobar las variables de la página
 	if (!(isset($empresaId) && isset($empresa) && isset($modo))) {
 		redirect("empresas");
@@ -20,7 +19,7 @@
    
    <div id="form">
       <?php echo form_open("empresas/$modo");?>
-   	<h2><span id="idNum">55</span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
+   	<h2><span id="idNum"><?php echo $empresaId ?></span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
 		<input type="hidden" name="id" value="" />
 		
 		<?php if ($nivel <= 3 && $modo == "read") { ?>
@@ -28,7 +27,6 @@
 				<a class="button" href="<?php echo site_url('empresas/edit/'.$empresaId); ?>">Editar</a>
 		</div>		
 		<?php } ?>
-
 		
       <fieldset id="basic">
       <legend>Datos básicos</legend>
@@ -38,8 +36,9 @@
       </div>
 	    
       <div>
-            <label for="empresa">Empresa</label>
+            <label for="empresa" class="required" title="Obligatorio">Empresa</label>
          <input type="text" id="empresa" name="empresa" value="" />
+         <span><?php echo form_error('empresa'); ?></span>
       </div>
 
       <div>
@@ -77,23 +76,27 @@
       </div>    
 	    
       <div>
-            <label for="cp">C.P.</label>
+            <label for="cp" class="required" title="Obligatorio">C.P.</label>
          <input type="text" id="cp" name="cp" value="" />
+         <span><?php echo form_error('cp'); ?></span>
       </div>    
 	    
       <div>
-            <label for="ciutat">Población</label>
+            <label for="ciutat" class="required" title="Obligatorio">Población</label>
          <input type="text" id="ciutat" name="ciutat" value="" />
+         <span><?php echo form_error('ciutat'); ?></span>
       </div>   
 	    
       <div>
-            <label for="provincia">Provincia</label>
+            <label for="provincia" class="required" title="Obligatorio">Provincia</label>
          <input type="text" id="provincia" name="provincia" value="" />
+         <span><?php echo form_error('provincia'); ?></span>
       </div>     
 	    
       <div>
-            <label for="telf">Teléfono</label>
+            <label for="telf" class="required" title="Obligatorio">Teléfono</label>
          <input type="text" id="telf" name="telf" value="" />
+         <span><?php echo form_error('telf'); ?></span>
       </div>
 
       <div>
@@ -167,10 +170,7 @@
       </fieldset>   
 
    	<div id="buttons">
-   		<?php if ($nivel <= 3 && $modo == "update") { ?>
-   			<input id="buttonSave" class="button" type="submit" value="Guardar" />
-   		<?php } ?>
-   	
+  			<input id="buttonSave" class="button" type="submit" value="Guardar" />
    		<a id="buttonBack" class="button" href="<?php echo site_url('empresas')?>">Volver ></a>
    	</div>
 
@@ -178,12 +178,15 @@
    </div>
 </div>
 <?php 
+	$this->load->view('js/empresa_sheet_show.js.php'); 
+	
 	if($modo == "read") { 
 		$this->load->view('js/empresa_sheet_read.js.php'); 
 	} else if ($modo == "update") {
 		$this->load->view('js/empresa_sheet_update.js.php'); 
+	} else if ($modo == "create") {
+		$this->load->view('js/empresa_sheet_new.js.php');
 	}
-	$this->load->view('js/empresa_sheet_show.js.php'); 
 ?>
 <?php $this->load->view('footer'); ?>
  

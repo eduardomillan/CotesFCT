@@ -9,6 +9,9 @@
 	<div id="search">
 	
 		<?php
+		//Nivel del usuario
+		$nivel = (int) $this->session->userdata("nivel");
+
 		//Destino del form
 		if (empty($advancedsearch)) {
 			echo form_open("empresas/search");
@@ -73,6 +76,12 @@
 		</div>
 		<div id="searchHelp">Busca en: Empresa, gerente, población, CIF</div>
 		</div>
+		
+		<?php if ($nivel == 1) { ?>
+		<div id="buttonNew">
+				<a class="button" href="<?php echo site_url('empresas/arise'); ?>">Nueva</a>
+		</div>	
+		<?php } ?>	
 	
 	<div id="results">
 	<?php
@@ -95,8 +104,6 @@
 			$link_info = anchor("empresas/info/".$dato->id, img(array("src"=>"images/ico_m_info.png", "alt"=>"Información", "title"=>"Información")));
 			$link_edit = "";
 			$link_del = "";
-			
-			$nivel = (int) $this->session->userdata("nivel");
 			
 			//Control de acceso por nivel de usuario
 			if ($nivel <= 3) {

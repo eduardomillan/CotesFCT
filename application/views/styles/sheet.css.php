@@ -1,17 +1,32 @@
 <style type="text/css">
 div {
-  margin: .4em 0;
+  margin: .2em 0;
 }
-div label {
-  width: auto;
-  padding-right: 1em;
-  color: black;
-  font-weight: lighter;
-  display: block;
-  margin: .1em 0 0 0;  
+fieldset div {
+  float: left;
+  position: relative;
+  margin-bottom: 1em;
 }
-#container h2 {
-  color: #2EA2CC;
+fieldset div label {
+   width: auto;
+   padding-right: 1em;
+   color: black;
+   font-weight: lighter;
+   display: block;
+   margin: .1em 0 0 0;  
+}
+fieldset div span {
+   width: auto;
+   padding-right: 0em;
+   margin: 0 0 0 0;
+   display: block;
+	font-size: 10px;
+	font-style: italic;
+	color: red;
+	position: absolute;
+	top: 4em;
+	left: 0.5em;
+	z-index: 1;
 }
 fieldset {
   color: #2EA2CC;
@@ -22,9 +37,6 @@ fieldset {
 fieldset legend {
   font-weight: bold;
   color: black;
-}
-fieldset div {
-  float: left;
 }
 fieldset#other {
 	width: 97%;
@@ -76,5 +88,9 @@ form textarea {
 	width: 55em;
 	height: 6em;
 	padding: 2px;
+}
+label.required {
+	font-weight: 500;
+  	color: #C00;
 }
 </style>

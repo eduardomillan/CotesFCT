@@ -33,6 +33,23 @@
 	color: white;
 	text-align: center;
 }
+#container h2 {
+  color: #2EA2CC;
+}
+#container #success {
+	margin-top: 7em;
+	margin-left: 7em;
+	font-size: 1.2em;
+	color: green;
+	font-weight: bold;
+}
+#container #error {
+	margin-top: 7em;
+	margin-left: 7em;
+	font-size: 1.2em;
+	color: red;
+	font-weight: bold;
+}
 #dataTable, #dataTable table {
 	margin: 0 auto;
 }
@@ -108,10 +125,9 @@ select, input {
 	transition: border-color 0.05s ease-in-out 0s;
 	box-sizing: border-box;
 	font-weight: inherit;
-	margin: 5px;
 	font-size: 14px;
-    padding: 3px;
-    margin: 2px 6px 8px 0px;
+   padding: 3px;
+   margin: 0.1em 0.2em 0.2em 0.1em;
 }
 input[type="submit"], .button {
 	height: 30px;

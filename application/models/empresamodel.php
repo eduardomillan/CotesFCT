@@ -75,7 +75,7 @@ class EmpresaModel extends CI_Model {
 	}
 	
 	/**
-	 * Obtains a list of 'familias' frm the database
+	 * Obtains a list of 'familias' from the database
 	 * @return unknown|NULL
 	 */
 	function listFamilias() {
@@ -88,6 +88,24 @@ class EmpresaModel extends CI_Model {
 			return NULL;
 		}
 	}
+	
+	/**
+	 * Obtains a list of disctinct familias existing in the 'empresas' table
+	 */
+	function listFamiliasInEmpresas() {
+		$this->db->select('nombre');
+		$this->db->distinct();
+		$this->db->from(self::FAMILIA_TABLE);
+		$this->db->order_by('nombre');
+		$res = $this->db->get()->result();
+		if (is_array($res) && count($res) >= 1) {
+			return $res;
+		} else {
+			return NULL;
+		}
+	}
+	
+	
 	
 	/**
 	* Obtains the 'empresa' row array given its id or CIF

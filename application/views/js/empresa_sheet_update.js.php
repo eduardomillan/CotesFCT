@@ -7,6 +7,6 @@
 	document.getElementById("buttonSave").style.visibility = "visible";
 	
 	//Set focus
-	form1['cif'].focus();
+	form1['empresa'].focus();
 	
 </script>

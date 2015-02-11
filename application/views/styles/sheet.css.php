@@ -32,24 +32,20 @@ fieldset {
   color: #2EA2CC;
   border-color: #2EA2CC;
   float: left;
-  width: auto;  
+  width: 97%;  
 }
 fieldset legend {
   font-weight: bold;
   color: black;
 }
-fieldset#other {
-	width: 97%;
-   right: 0;	
-}
 fieldset#fct {
 	clear: both;
 	width: 47%;
 }
-fieldset#theInstructor {
+fieldset#other {
 	width: 47%;
+   right: 0;	
 }
-
 form {
 	position: relative;
 }
@@ -59,30 +55,35 @@ form #buttons {
 	padding-right: 1em;
 	padding-top: 1em;
 }
-form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior {
+form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior, form #familia {
 	width: 5em;
 }
-form #curs {
+form #curs, form #telf, form #telf2, form #fax {
 	width: 8em;
 }
-form #cif, form #nif_gerent, form #instructor, form #nif_instructor, 
-form #telf, form #fax, form #carrec_instructor 
+form #cif, form #nif_gerent, form #telf_gerent, 
+form #nif_instructor, form #carrec_instructor,
+form #telf_instructor, form #provincia
 {
 	width: 10em;
 }
-form #activitat {
+form #activitat, form #instructor, form #email, form #email_instructor, 
+form #email_gerent {
 	width: 15em;
 }
-form #horari_laboral, form #provincia, form #nom_comercial, form #responsable {
+form #horari_laboral, form #nom_comercial, form #ciutat {
 	width: 20em;
 }
-form #empresa, form #direccion, form #ciutat {
+form #web {
+	width: 25em;
+}
+form #empresa, form #direccion, form #responsable {
 	width: 30em;
 }
 form textarea {
-	width: 55em;
-	height: 6em;
-	padding: 2px;
+	width: auto;
+	height: 1em;
+	padding: 0.5em;
 }
 label.required {
 	font-weight: 500;

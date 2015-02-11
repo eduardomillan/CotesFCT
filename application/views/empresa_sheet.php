@@ -31,12 +31,7 @@
 		<?php } ?>
 		
       <fieldset id="basic">
-      <legend>Datos básicos</legend>
-      <div>
-            <label for="cif">CIF/NIF</label>
-         <input type="text" id="cif" name="cif" value="" />
-      </div>
-	    
+      <legend>Empresa</legend>
       <div>
             <label for="empresa" class="required" title="Obligatorio">Empresa</label>
          <input type="text" id="empresa" name="empresa" value="" />
@@ -44,20 +39,16 @@
       </div>
 
       <div>
-            <label for="responsable">Gerente</label>
-         <input type="text" id="responsable" name="responsable" value="" />
-      </div>    
+            <label for="cif" class="required" title="Obligatorio">CIF/NIF</label>
+         <input type="text" id="cif" name="cif" value="" />
+         <span><?php echo form_error('cif'); ?></span>
+      </div>
 
-      <div>
-            <label for="nif_gerent">NIF Gerente</label>
-         <input type="text" id="nif_gerent" name="nif_gerent" value="" />
-      </div>  	   
-	    
       <div>
             <label for="nom_comercial">Nombre Comercial</label>
          <input type="text" id="nom_comercial" name="nom_comercial" value="" />
-      </div>	   
-	    
+      </div>	
+         
       <div>
             <label for="activitat">Actividad</label>
          <input type="text" id="activitat" name="activitat" value="" />
@@ -67,8 +58,13 @@
           <label for="horari_laboral">Horario</label>
         	<input type="text" id="horari_laboral" name="horari_laboral" value="" />
      	</div>	   
-	    
-      </fieldset>
+
+      <div>
+            <label for="concert">Concierto</label>
+         <input type="text" id="concert" name="concert" value="" />
+      </div>	
+		</fieldset>	   
+
 	    
       <fieldset id="address">
       <legend>Domicilio</legend>
@@ -102,51 +98,57 @@
       </div>
 
       <div>
+            <label for="telf2">Teléfono 2</label>
+         <input type="text" id="telf2" name="telf2" value="" />
+      </div>
+
+      <div>
             <label for="fax">Fax</label>
          <input type="text" id="fax" name="fax" value="" />
       </div>
-      </fieldset>	  
 
-	   
-      <fieldset id="fct">
-      <legend>FCT</legend>
       <div>
-            <label for="curs">Curso</label>
-         <input type="text" id="curs" name="curs" value="" />
-      </div>	    
-	    
-      <div>
-         <label for="familia">Familia</label>
-         <?php
-			$options = array();
-			$options[''] = '';
-			foreach($familiaslist as $fam):
-				$options[$fam->nombre] = $fam->nombre;
-			endforeach;
-			echo form_dropdown('familia', $options);
-			?>
+            <label for="email">E-mail</label>
+         <input type="text" id="email" name="email" value="" />
       </div>
 
       <div>
-            <label for="concert">Concierto</label>
-         <input type="text" id="concert" name="concert" value="" />
-      </div>	
+            <label for="web">WWW</label>
+         <input type="text" id="web" name="web" value="" />
+      </div>
+      </fieldset>	  
+
+
+	    
+	   <fieldset id="manager">
+	   <legend>Gerente o representante</legend>
+      <div>
+            <label for="responsable">Nombre y apellidos</label>
+         <input type="text" id="responsable" name="responsable" value="" />
+      </div>    
 
       <div>
-            <label for="evaluacio">Evaluación</label>
-         <input type="text" id="evaluacio" name="evaluacio" value="" />
-      </div>       
-      
+            <label for="nif_gerent">NIF</label>
+         <input type="text" id="nif_gerent" name="nif_gerent" value="" />
+      </div>  	   
+
       <div>
-            <label for="evalua_anterior">Eval. anterior</label>
-         <input type="text" id="evalua_anterior" name="evalua_anterior" value="" />
-      </div>       
+            <label for="telf_gerent">Teléfono</label>
+         <input type="text" id="telf_gerent" name="telf_gerent" value="" />
+      </div>    
+
+      <div>
+            <label for="email_gerent">E-mail</label>
+         <input type="text" id="email_gerent" name="email_gerent" value="" />
+      </div>    
       </fieldset>
+      
+      
       
       <fieldset id="theInstructor">
       	<legend>Instructor</legend>
       <div>
-            <label for="instructor">Nombre</label>
+            <label for="instructor">Nombre y apellidos</label>
          <input type="text" id="instructor" name="instructor" value="" />
       </div>   
 
@@ -159,7 +161,43 @@
             <label for="carrec_instructor">Cargo</label>
          <input type="text" id="carrec_instructor" name="carrec_instructor" value="" />
       </div>               	
+      
+      <div>
+            <label for="telf_instructor">Teléfono</label>
+         <input type="text" id="telf_instructor" name="telf_instructor" value="" />
+      </div>               	
+      
+      <div>
+            <label for="email_instructor">E-mail</label>
+         <input type="text" id="email_instructor" name="email_instructor" value="" />
+      </div>               	
       </fieldset>
+
+
+	    
+      <fieldset id="fct">
+      <legend>FCT</legend>
+      <div>
+            <label for="curs">Curso</label>
+         <input type="text" id="curs" name="curs" value="" />
+      </div>	    
+	    
+      <div>
+         <label for="familia">Familia</label>
+         <input type="text" id="familia" name="familia" value="" />
+        </div>
+
+      <div>
+            <label for="evaluacio">Evaluación</label>
+         <input type="text" id="evaluacio" name="evaluacio" value="" />
+      </div>       
+      
+      <div>
+            <label for="evalua_anterior">Eval. anterior</label>
+         <input type="text" id="evalua_anterior" name="evalua_anterior" value="" />
+      </div>       
+      </fieldset>	    
+	    
 	    
 	    
       <fieldset id="other">

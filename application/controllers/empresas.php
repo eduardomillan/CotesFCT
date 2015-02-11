@@ -95,7 +95,7 @@ class Empresas extends CI_Controller {
 		}
 		
 		//Familias
-		$data['familiaslist'] = $this->empm->listFamilias();
+		$data['familiaslist'] = $this->empm->listFamiliasInEmpresas();
 		
 		
 		if (!strlen($searchtext) && !strlen($searchfamilia) && !strlen($searchconcert)) {
@@ -142,22 +142,22 @@ class Empresas extends CI_Controller {
 	 * Show information about the 'empresa'
 	 */
 	public function info() {
-		$this->show(self::MODE_READ);
+		$this->show($this->uri->segment(3), self::MODE_READ);
 	}
 	
 	
 	/**
-	 * 
+	 * Edit the 'empresa' data
 	 */
 	public function edit() {
-		$this->show(self::MODE_UPDATE);
+		$this->show($this->uri->segment(3), self::MODE_UPDATE);
 	}
 	
 	/**
-	 *
+	 * Shows the 'empresa' sheet to create one
 	 */
 	public function arise() {
-		$this->show(self::MODE_CREATE);
+		$this->show(NULL, self::MODE_CREATE);
 	}
 	
 	
@@ -165,13 +165,13 @@ class Empresas extends CI_Controller {
 	 * Show a 'empresa' and set the mode
 	 * @param unknown $mode
 	 */
-	private function show($mode) {
+	private function show($id, $mode) {
 
 		if ($mode == self::MODE_CREATE) {
 			$empresaId = "";
 			$empresa = array();
 		} else {
-			$empresaId = $this->uri->segment(3);
+			$empresaId = $id;
 			$empresa = $this->empm->getEmpresaByIdOrCIF($empresaId);
 		}
 		
@@ -180,20 +180,20 @@ class Empresas extends CI_Controller {
 		$data['modo'] = $mode;		
 		
 		//Familias
-		$data['familiaslist'] = $this->empm->listFamilias();
+		$data['familiaslist'] = NULL;
 		
 		$this->load->view(self::SHEET_PAGE, $data);
 	}
 	
 	/**
-	 * 
+	 * Update the 'empresa' data into the database
 	 */
 	public function update() {
 		$this->save(self::MODE_UPDATE);
 	}
 	
 	/**
-	 *
+	 * Create a new 'empresa' record into the database
 	 */
 	public function create() {
 		$this->save(self::MODE_CREATE);
@@ -205,18 +205,11 @@ class Empresas extends CI_Controller {
 	 */
 	private function save($mode) {
 		
-		// build array for the model
+		//Build array for the model
 		$userdata = $this->input->post();
 		
-		$this->form_validation->set_rules('empresa', 'Empresa', 'required');$empresaId = $this->uri->segment(3);
-		$this->form_validation->set_rules('cp', 'Código Postasl', 'required');
-		$this->form_validation->set_rules('ciutat', 'Población', 'required');
-		$this->form_validation->set_rules('provincia', 'Provincia', 'required');
-		$this->form_validation->set_rules('telf', 'Teléfono', 'required');
-
-		$this->form_validation->set_error_delimiters('', '');
-		
-		if ($this->form_validation->run() == FALSE) {
+		//Validate the data		
+		if ($this->validate() == FALSE) {
 			
 			//Variables de página
 			$empresaId = $userdata['id'];
@@ -225,7 +218,7 @@ class Empresas extends CI_Controller {
 			$data['modo'] = $mode;
 			
 			//Familias
-			$data['familiaslist'] = $this->empm->listFamilias();
+			$data['familiaslist'] = NULL;
 			$data['updateResult'] = "notValid";
 			
 			$this->load->view(self::SHEET_PAGE, $data);
@@ -253,6 +246,24 @@ class Empresas extends CI_Controller {
 				$this->load->view(self::UPDATE_PAGE, $data);
 			}
 		}
+	}
+	
+	
+	/**
+	 * Performs the data validation
+	 */
+	private function validate() {
+		
+		$this->form_validation->set_rules('empresa', 'Empresa', 'required');
+		$this->form_validation->set_rules('cif', 'CIF/NIF', 'required');
+		$this->form_validation->set_rules('cp', 'Código Postal', 'required');
+		$this->form_validation->set_rules('ciutat', 'Población', 'required');
+		$this->form_validation->set_rules('provincia', 'Provincia', 'required');
+		$this->form_validation->set_rules('telf', 'Teléfono', 'required');
+		
+		$this->form_validation->set_error_delimiters('', '');
+		
+		return $this->form_validation->run();
 	}
 }
 ?>

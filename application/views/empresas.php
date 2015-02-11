@@ -143,4 +143,7 @@
 	?>
 	</div>
 </div>
+<script type="text/javascript" >
+	document.forms[0].searchtext.focus();
+</script>
 <?php $this->load->view('footer'); ?>

@@ -1,11 +1,11 @@
 <style type="text/css">
-#advancedSearch {
-	font-size: 12px;
-}
 #searchHelp {
 	font-size: 10px;
 	color: grey;
 	font-style: italic;
+	position: relative;
+	left: 75px;
+	top: -20px;
 }
 #search {
 	margin-top: 20px;
@@ -13,11 +13,6 @@
 	left: 50px;
 }
 #typeOfSearch {
-}
-#searchHelp {
-	position: relative;
-	left: 75px;
-	top: -20px;
 }
 #summary {
 	margin-top: 10px;
@@ -32,5 +27,8 @@
 	color: blue;
 }
 #results {
+}
+#searchconcert {
+	width: 5em;
 }
 </style>

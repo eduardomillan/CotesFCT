@@ -49,6 +49,10 @@
 	</div>
 
 </div>
+<script type="text/javascript">
+	//Set focus
+	document.forms[0].username.focus();
+</script>
 
 </body>
 </html>

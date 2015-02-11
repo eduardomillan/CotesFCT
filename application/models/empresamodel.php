@@ -93,9 +93,9 @@ class EmpresaModel extends CI_Model {
 	 * Obtains a list of disctinct familias existing in the 'empresas' table
 	 */
 	function listFamiliasInEmpresas() {
-		$this->db->select('nombre');
+		$this->db->select('familia as nombre');
 		$this->db->distinct();
-		$this->db->from(self::FAMILIA_TABLE);
+		$this->db->from(self::EMPRESA_TABLE);
 		$this->db->order_by('nombre');
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {

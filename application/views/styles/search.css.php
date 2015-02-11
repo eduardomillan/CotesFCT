@@ -33,9 +33,4 @@
 }
 #results {
 }
-#container #buttonNew {
-	position: absolute;
-	top: 5.5em;
-	right: 1em;
-}
 </style>

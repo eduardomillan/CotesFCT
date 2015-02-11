@@ -74,6 +74,9 @@
 	text-overflow: ellipsis;
 	border-color: #C2FCFF;
 }
+#dataTable table a i {
+	font-size: 1.5em;
+}
 #pagination {
 	margin-top: 10px;
 	font-size: 16px;
@@ -109,7 +112,7 @@ body, html {
 }
 a {
 	text-decoration: none;
-	color: blue;
+	color: #2EA2CC;
 	transition-property: border, #F6F4F2, color;
 	transition-duration: 0.05s;
 	transition-timing-function: ease-in-out;
@@ -173,5 +176,13 @@ p {
 	text-align: right;
 	font-size: 10px;
 	margin: 0 auto;
+}
+#container #actions {
+	text-align: right;
+	float: right;
+	top: 1.5em;
+	position: relative;
+	margin-right: 0.7em;
+	z-index: 1;
 }
 </style>

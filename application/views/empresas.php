@@ -1,3 +1,7 @@
+<?php
+	//Nivel del usuario
+	$nivel = (int) $this->session->userdata("nivel");
+?>
 <?php $this->load->view('header'); ?>
 <?php $this->load->view('styles/common.css.php');?>
 <?php $this->load->view('styles/search.css.php');?>
@@ -6,11 +10,21 @@
 <div id="container">
 	<?php $this->load->view('top');?>
 	<h1>Búsqueda de empresas</h1>
+	
+	
+	<div id="actions">
+		<?php if ($nivel == 1) { ?>
+		<div id="buttonNew">
+				<a class="button" href="<?php echo site_url('empresas/arise'); ?>" title="Nueva">
+					<i class="fa fa-plus-square fa-1x"></i> Nueva
+				</a>
+		</div>	
+		<?php } ?>	
+	</div>	
+	
 	<div id="search">
 	
 		<?php
-		//Nivel del usuario
-		$nivel = (int) $this->session->userdata("nivel");
 
 		//Destino del form
 		if (empty($advancedsearch)) {
@@ -54,9 +68,13 @@
 			);
 			echo form_input($datos);
 		}
+		?>
 		
-		echo form_submit('submit', 'Buscar');
+		<a id="buttonSearch" class="button" href="#" onclick="javascript:document.forms[0].submit()">
+			<i class="fa fa-search fa-1x"></i> Buscar
+		</a>		
 		
+		<?php
 		echo form_close(); 
 		?>
 		<div id="typeOfSearch">
@@ -76,12 +94,6 @@
 		</div>
 		<div id="searchHelp">Busca en: Empresa, gerente, población, CIF</div>
 		</div>
-		
-		<?php if ($nivel == 1) { ?>
-		<div id="buttonNew">
-				<a class="button" href="<?php echo site_url('empresas/arise'); ?>">Nueva</a>
-		</div>	
-		<?php } ?>	
 	
 	<div id="results">
 	<?php
@@ -101,13 +113,13 @@
 		$cont = $this->uri->segment(3) + 1;
 		foreach($empresaslist as $dato):
 		
-			$link_info = anchor("empresas/info/".$dato->id, img(array("src"=>"images/ico_m_info.png", "alt"=>"Información", "title"=>"Información")));
+			$link_info = anchor("empresas/info/".$dato->id, "<i class=\"fa fa-info-circle fa-1x\"></i>", "title='Información'");
 			$link_edit = "";
 			$link_del = "";
 			
 			//Control de acceso por nivel de usuario
 			if ($nivel <= 3) {
-				$link_edit = anchor("empresas/edit/".$dato->id, img(array("src"=>"images/ico_m_editar.png", "alt"=>"Editar", "title"=>"Editar")));
+				$link_edit = anchor("empresas/edit/".$dato->id, "<i class=\"fa fa-pencil-square-o fa-1x\"></i>", "title='Editar'");
 			}
 			
 			if ($nivel == 1) {
@@ -117,7 +129,7 @@
 			$this->table->add_row($cont,$dato->familia,$dato->empresa,
 					$dato->responsable,$dato->ciutat,$dato->telf,
 					$dato->cif,$dato->concert,
-					$link_info.$link_edit.$link_del);
+					$link_info." ".$link_edit." ".$link_del);
 			$cont++;
 		endforeach;
 		

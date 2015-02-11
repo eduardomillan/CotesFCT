@@ -23,8 +23,10 @@
 		<input type="hidden" name="id" value="" />
 		
 		<?php if ($nivel <= 3 && $modo == "read") { ?>
-		<div id="buttonEdit">
-				<a class="button" href="<?php echo site_url('empresas/edit/'.$empresaId); ?>">Editar</a>
+		<div id="actions">
+			<div id="buttonEdit">
+				<a class="button" href="<?php echo site_url('empresas/edit/'.$empresaId); ?>"><i class="fa fa-pencil-square-o fa-1x"></i> Editar</a>
+			</div>
 		</div>		
 		<?php } ?>
 		
@@ -170,7 +172,9 @@
       </fieldset>   
 
    	<div id="buttons">
-  			<input id="buttonSave" class="button" type="submit" value="Guardar" />
+  			<a id="buttonSave" class="button" href="#" onclick="javascript:document.forms[0].submit()">
+  				<i class="fa fa-floppy-o fa-1x"></i> Guardar
+  			</a>
    		<a id="buttonBack" class="button" href="<?php echo site_url('empresas')?>">Volver ></a>
    	</div>
 

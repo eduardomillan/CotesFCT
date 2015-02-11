@@ -7,7 +7,7 @@ class Empresas extends CI_Controller {
 	const SELF_PAGE = "empresas";
 	const SHEET_PAGE = "empresa_sheet";
 	const UPDATE_PAGE = "empresa_update";
-	const PAGE_ROWS = 10;
+	const PAGE_ROWS = 20;
 
 	/**
 	 * Constructor

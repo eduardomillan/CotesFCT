@@ -59,11 +59,6 @@ form #buttons {
 	padding-right: 1em;
 	padding-top: 1em;
 }
-form #buttonEdit {
-   position: absolute;
-   top: -0.7em;
-   right: 1em;
-}
 form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior {
 	width: 5em;
 }
@@ -92,5 +87,13 @@ form textarea {
 label.required {
 	font-weight: 500;
   	color: #C00;
+}
+#container #actions {
+	text-align: right;
+	top: -1em;
+	position: absolute;
+	margin-right: 0.7em;
+	z-index: 1;
+	right: 0.5em;
 }
 </style>

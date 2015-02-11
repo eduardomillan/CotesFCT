@@ -207,7 +207,7 @@ class Empresas extends CI_Controller {
 		
 		//Build array for the model
 		$userdata = $this->input->post();
-		
+				
 		//Validate the data		
 		if ($this->validate() == FALSE) {
 			

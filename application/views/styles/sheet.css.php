@@ -38,14 +38,6 @@ fieldset legend {
   font-weight: bold;
   color: black;
 }
-fieldset#fct {
-	clear: both;
-	width: 47%;
-}
-fieldset#other {
-	width: 47%;
-   right: 0;	
-}
 form {
 	position: relative;
 }
@@ -81,8 +73,8 @@ form #empresa, form #direccion, form #responsable {
 	width: 30em;
 }
 form textarea {
-	width: auto;
-	height: 1em;
+	width: 55em;
+	height: 6em;
 	padding: 0.5em;
 }
 label.required {
@@ -97,4 +89,8 @@ label.required {
 	z-index: 1;
 	right: 0.5em;
 }
+#actions div {
+	display: inline;
+}
+
 </style>

@@ -4,9 +4,10 @@ class Empresas extends CI_Controller {
 	const MODE_CREATE = "create";
 	const MODE_READ = "read";
 	const MODE_UPDATE = "update";
-	const SELF_PAGE = "empresas";
-	const SHEET_PAGE = "empresa_sheet";
-	const UPDATE_PAGE = "empresa_update";
+	
+	const PAGE_SELF = "empresas";
+	const PAGE_SHEET = "empresa_sheet";
+	const PAGE_UPDATE = "empresa_update";
 	const PAGE_ROWS = 20;
 
 	/**
@@ -17,7 +18,6 @@ class Empresas extends CI_Controller {
 		//$this->load->library('console');
 		//$this->output->enable_profiler(TRUE);
 		$this->load->model('empresamodel','empm');
-				
 	}
 	
 	/**
@@ -72,7 +72,7 @@ class Empresas extends CI_Controller {
 		
 		$data['searchtext'] = $searchtext;
 		$this->session->set_userdata('searchtext', $searchtext);
-		$this->load->view(self::SELF_PAGE, $data);
+		$this->load->view(self::PAGE_SELF, $data);
 	}
 	
 	/**
@@ -134,7 +134,7 @@ class Empresas extends CI_Controller {
 		$this->session->set_userdata('searchfamilia', $searchfamilia);
 		$this->session->set_userdata('searchconcert', $searchconcert);
 		
-		$this->load->view(self::SELF_PAGE, $data);
+		$this->load->view(self::PAGE_SELF, $data);
 	}
 	
 	
@@ -182,7 +182,7 @@ class Empresas extends CI_Controller {
 		//Familias
 		$data['familiaslist'] = NULL;
 		
-		$this->load->view(self::SHEET_PAGE, $data);
+		$this->load->view(self::PAGE_SHEET, $data);
 	}
 	
 	/**
@@ -221,7 +221,7 @@ class Empresas extends CI_Controller {
 			$data['familiaslist'] = NULL;
 			$data['updateResult'] = "notValid";
 			
-			$this->load->view(self::SHEET_PAGE, $data);
+			$this->load->view(self::PAGE_SHEET, $data);
 			
 		} else {// passed validation proceed to post success logic
 			
@@ -237,13 +237,13 @@ class Empresas extends CI_Controller {
 			if ($res == 1) // the information has therefore been successfully saved in the db
 			{
 				$data['updateResult'] = "success";
-				$this->load->view(self::UPDATE_PAGE, $data);
+				$this->load->view(self::PAGE_UPDATE, $data);
 			}
 			else
 			{
 				//An error occurred saving your information
 				$data['updateResult'] = "error";
-				$this->load->view(self::UPDATE_PAGE, $data);
+				$this->load->view(self::PAGE_UPDATE, $data);
 			}
 		}
 	}

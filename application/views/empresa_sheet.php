@@ -22,13 +22,19 @@
    	<h2><span id="idNum"><?php echo $empresaId ?></span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
 		<input type="hidden" name="id" value="" />
 		
-		<?php if ($nivel <= 3 && $modo == "read") { ?>
 		<div id="actions">
+			<?php if ($modo == "read") { ?>
+			<div id="buttonEval">
+				<a class="button" href="<?php echo site_url('evaluaciones/info/'.$empresaId); ?>"><i class="fa fa-check-square fa-1x"></i> Evaluación</a>
+			</div>		
+			<?php } ?>
+			
+			<?php if ($nivel <= 3 && $modo == "read") { ?>
 			<div id="buttonEdit">
 				<a class="button" href="<?php echo site_url('empresas/edit/'.$empresaId); ?>"><i class="fa fa-pencil-square-o fa-1x"></i> Editar</a>
 			</div>
+			<?php } ?>
 		</div>		
-		<?php } ?>
 		
       <fieldset id="basic">
       <legend>Empresa</legend>
@@ -174,7 +180,8 @@
       </fieldset>
 
 
-	    
+	   <?php
+	   /*
       <fieldset id="fct">
       <legend>FCT</legend>
       <div>
@@ -197,6 +204,7 @@
          <input type="text" id="evalua_anterior" name="evalua_anterior" value="" />
       </div>       
       </fieldset>	    
+      */?>
 	    
 	    
 	    

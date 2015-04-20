@@ -10,30 +10,33 @@
 <?php $this->load->view('header'); ?>
 <?php $this->load->view('styles/common.css.php');?>
 <?php $this->load->view('styles/sheet.css.php');?>
-</head>
-<body>
-<div id="container">
-   <?php $this->load->view('top');?>
+<?php $this->load->view('header_end'); ?>
+
+<?php $this->load->view('top');?>
 
    <h1>Ficha de empresa (<span id="modo">modo</span>)</h1>
    
    <div id="form">
       <?php echo form_open("empresas/$modo");?>
-   	<h2><span id="idNum"><?php echo $empresaId ?></span> - <span id="nombreEmpresa">Nombre de la empresa</span></h2>
-		<input type="hidden" name="id" value="" />
+   	<?php $this->load->view('empresa_title');?>
+   	<input type="hidden" name="id" value="<?php echo $empresaId ?>" />
 		
 		<div id="actions">
-			<?php if ($modo == "read") { ?>
-			<div id="buttonEval">
-				<a class="button" href="<?php echo site_url('evaluaciones/info/'.$empresaId); ?>"><i class="fa fa-check-square fa-1x"></i> Evaluación</a>
-			</div>		
-			<?php } ?>
-			
 			<?php if ($nivel <= 3 && $modo == "read") { ?>
 			<div id="buttonEdit">
 				<a class="button" href="<?php echo site_url('empresas/edit/'.$empresaId); ?>"><i class="fa fa-pencil-square-o fa-1x"></i> Editar</a>
 			</div>
 			<?php } ?>
+			<?php if ($nivel <= 3 && $modo != "read") { ?>
+			<div id="buttonSave">
+			    <a class="button" href="#" onclick="javascript:document.forms[0].submit()">
+  				     <i class="fa fa-floppy-o fa-1x"></i> Guardar
+  			    </a>
+			</div>
+			<?php } ?>
+			<div id="buttonBack">
+				<a class="button" href="<?php echo site_url('empresas')?>">Volver ></a>
+			</div>
 		</div>		
 		
       <fieldset id="basic">
@@ -179,34 +182,16 @@
       </div>               	
       </fieldset>
 
-
-	   <?php
-	   /*
+		<?php if ($modo == "read") { ?>
       <fieldset id="fct">
       <legend>FCT</legend>
-      <div>
-            <label for="curs">Curso</label>
-         <input type="text" id="curs" name="curs" value="" />
+      <div style="display: inline-flex">
+         <label class=".textLabel">Información sobre las evaluaciones de la empresa</label>
+         <a class="button" href="<?php echo site_url('evaluaciones/info/'.$empresaId); ?>">
+         <i class="fa fa-check-square fa-1x"></i> Evaluaciones</a>
       </div>	    
-	    
-      <div>
-         <label for="familia">Familia</label>
-         <input type="text" id="familia" name="familia" value="" />
-        </div>
-
-      <div>
-            <label for="evaluacio">Evaluación</label>
-         <input type="text" id="evaluacio" name="evaluacio" value="" />
-      </div>       
-      
-      <div>
-            <label for="evalua_anterior">Eval. anterior</label>
-         <input type="text" id="evalua_anterior" name="evalua_anterior" value="" />
-      </div>       
-      </fieldset>	    
-      */?>
-	    
-	    
+      </fieldset>	 
+      <?php } ?>   
 	    
       <fieldset id="other">
       	<legend>Otra información</legend>
@@ -217,16 +202,9 @@
       	</div>	 
       </fieldset>   
 
-   	<div id="buttons">
-  			<a id="buttonSave" class="button" href="#" onclick="javascript:document.forms[0].submit()">
-  				<i class="fa fa-floppy-o fa-1x"></i> Guardar
-  			</a>
-   		<a id="buttonBack" class="button" href="<?php echo site_url('empresas')?>">Volver ></a>
-   	</div>
-
       <?php echo form_close(); ?>
    </div>
-</div>
+
 <?php 
 	$this->load->view('js/empresa_sheet_show.js.php'); 
 	

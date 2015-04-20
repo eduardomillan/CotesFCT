@@ -169,13 +169,16 @@ class Empresas extends CI_Controller {
 
 		if ($mode == self::MODE_CREATE) {
 			$empresaId = "";
+			$nombreEmpresa = "Empresa";
 			$empresa = array();
 		} else {
 			$empresaId = $id;
 			$empresa = $this->empm->getEmpresaByIdOrCIF($empresaId);
+			$nombreEmpresa = addslashes($empresa['empresa']);
 		}
 		
 		$data['empresaId'] = $empresaId;
+		$data['nombreEmpresa'] = $nombreEmpresa;
 		$data['empresa'] = $empresa;
 		$data['modo'] = $mode;		
 		
@@ -212,10 +215,11 @@ class Empresas extends CI_Controller {
 		if ($this->validate() == FALSE) {
 			
 			//Variables de página
-			$empresaId = $userdata['id'];
+			$empresaId = $userdata['empresaId'];
 			$data['empresaId'] = $empresaId;
 			$data['empresa'] = $userdata;
 			$data['modo'] = $mode;
+			$data['nombreEmpresa'] = $userdata['nombreEmpresa'];
 			
 			//Familias
 			$data['familiaslist'] = NULL;
@@ -226,6 +230,8 @@ class Empresas extends CI_Controller {
 		} else {// passed validation proceed to post success logic
 			
 			$data['updateResult'] = "";
+			unset($userdata['empresaId']);
+			unset($userdata['nombreEmpresa']);
 				
 			// run insert model to write data to db
 			if ($mode == self::MODE_CREATE) {

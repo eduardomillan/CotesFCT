@@ -1,10 +1,9 @@
 <?php $this->load->view('header'); ?>
 <?php $this->load->view('styles/common.css.php');?>
 <?php $this->load->view('styles/sheet.css.php');?>
-</head>
-<body>
-<div id="container">
-   <?php $this->load->view('top');?>
+<?php $this->load->view('header_end'); ?>
+
+<?php $this->load->view('top');?>
 
    <h1>Resultado</h1>
    
@@ -32,5 +31,6 @@
 	}
 	setTimeout(continuar, 2000);
 </script>
+
 <?php $this->load->view('footer'); ?>
  

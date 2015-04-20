@@ -5,10 +5,10 @@
 <?php $this->load->view('header'); ?>
 <?php $this->load->view('styles/common.css.php');?>
 <?php $this->load->view('styles/search.css.php');?>
-</head>
-<body>
-<div id="container">
-	<?php $this->load->view('top');?>
+<?php $this->load->view('header_end'); ?>
+
+<?php $this->load->view('top');?>
+
 	<h1>Búsqueda de empresas</h1>
 	
 	
@@ -142,7 +142,7 @@
 	}
 	?>
 	</div>
-</div>
+
 <script type="text/javascript" >
 	document.forms[0].searchtext.focus();
 </script>

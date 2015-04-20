@@ -93,7 +93,7 @@
 html {
     background: none repeat scroll 0% 0% #F1F1F1;
 }
-body, form select, form input[type="text"] {
+body, form select, form input[type="text"], form .textLabel {
     font-family: "Open Sans","Helvetica Neue","Arial",sans;
 }
 body {

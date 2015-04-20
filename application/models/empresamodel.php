@@ -7,8 +7,9 @@
  */
 class EmpresaModel extends CI_Model {
 
-	const EMPRESA_TABLE = "CDE_empresas_BACK2";
-	const FAMILIA_TABLE = "CDE_familias";
+	const TABLE_EMPRESA = "CDE_empresas_BACK2";
+	const TABLE_FAMILIA = "CDE_familias";
+	const TABLE_CICLOS = "CDE_cicleform";
 	
 	/**
 	 * Constructor
@@ -26,7 +27,7 @@ class EmpresaModel extends CI_Model {
 	function listEmpresasByText($text) {
 		$param = strtolower($text); //To lowercase and then use it in the search
 		
-		$this->db->from(self::EMPRESA_TABLE);
+		$this->db->from(self::TABLE_EMPRESA);
 		$this->db->like('lower(empresa)', $param);
 		$this->db->or_like('lower(ciutat)', $param);
 		$this->db->or_like('lower(responsable)', $param);
@@ -50,7 +51,7 @@ class EmpresaModel extends CI_Model {
 		$familia = $data['familia'];
 		$concert = $data['concert'];
 		
-		$this->db->from(self::EMPRESA_TABLE);
+		$this->db->from(self::TABLE_EMPRESA);
 		
 		$this->db->where('id >', 0);
 
@@ -79,7 +80,7 @@ class EmpresaModel extends CI_Model {
 	 * @return unknown|NULL
 	 */
 	function listFamilias() {
-		$this->db->from(self::FAMILIA_TABLE);
+		$this->db->from(self::TABLE_FAMILIA);
 		$this->db->order_by('nombre');
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {
@@ -89,13 +90,29 @@ class EmpresaModel extends CI_Model {
 		}
 	}
 	
+	
+	/**
+	 * Obtains a list of 'ciclos' from the database
+	 * @return unknown|NULL
+	 */
+	function listCiclos() {
+		$this->db->from(self::TABLE_CICLOS);
+		$this->db->order_by('codi');
+		$res = $this->db->get()->result();
+		if (is_array($res) && count($res) >= 1) {
+			return $res;
+		} else {
+			return NULL;
+		}
+	}	
+	
 	/**
 	 * Obtains a list of disctinct familias existing in the 'empresas' table
 	 */
 	function listFamiliasInEmpresas() {
 		$this->db->select('familia as nombre');
 		$this->db->distinct();
-		$this->db->from(self::EMPRESA_TABLE);
+		$this->db->from(self::TABLE_EMPRESA);
 		$this->db->order_by('nombre');
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {
@@ -114,7 +131,7 @@ class EmpresaModel extends CI_Model {
 	*/
 	function getEmpresaByIdOrCIF($param) {
 		if (strlen($param)) {
-			$this->db->from(self::EMPRESA_TABLE);
+			$this->db->from(self::TABLE_EMPRESA);
 			$this->db->where("id", $param);
 			$this->db->or_where("cif", $param);
 			$res = $this->db->get()->row_array();
@@ -131,7 +148,7 @@ class EmpresaModel extends CI_Model {
 	 * @return boolean
 	 */
 	function create($data) {
-		return $this->db->insert(self::EMPRESA_TABLE, $data);
+		return $this->db->insert(self::TABLE_EMPRESA, $data);
 	}
 	
 	/**
@@ -144,7 +161,7 @@ class EmpresaModel extends CI_Model {
 		unset($data['id']);
 		
 		$this->db->where('id', $id);
-		return $this->db->update(self::EMPRESA_TABLE, $data);
+		return $this->db->update(self::TABLE_EMPRESA, $data);
 	}
 	
 }

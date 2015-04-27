@@ -9,7 +9,7 @@ class Evaluaciones extends CI_Controller {
 	const MODE_READ = "read";
 	const MODE_UPDATE = "update";	
 	
-	const RANGE_CURSOS = 10;
+	const RANGE_CURSOS = 15;
 	
 	/**
 	 * Constructor

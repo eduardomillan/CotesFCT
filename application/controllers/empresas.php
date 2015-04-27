@@ -15,8 +15,8 @@ class Empresas extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		//$this->load->library('console');
-		//$this->output->enable_profiler(TRUE);
+		$this->load->library('console');
+		$this->output->enable_profiler(TRUE);
 		$this->load->model('empresamodel','empm');
 	}
 	
@@ -38,13 +38,18 @@ class Empresas extends CI_Controller {
 		$data['total'] = -1;
 		$data['advancedsearch'] = NULL;
 		
-		if (empty($_POST['searchtext'])) {
+		//Post fields
+		if (empty($_POST)) {
 			$searchtext = $this->session->userdata('searchtext');
+			$searchall = $this->session->userdata('searchall');
 		} else {
 			$searchtext = $this->input->post('searchtext');
+			$searchall = (isset($_POST['searchall']) ? "checked" : "");
 		}
 		
-		if (!strlen($searchtext)) {
+		
+		//Do search
+		if (!strlen($searchtext) && empty($searchall)) {
 			//Do nothing
 		} else {
 			//Configuración de la paginación
@@ -54,7 +59,11 @@ class Empresas extends CI_Controller {
 			$config['last_link'] = '>|';
 					
 			//Búsqueda			
-			$results = $this->empm->listEmpresasByText($searchtext);
+			if (empty($searchall)) {
+				$results = $this->empm->listEmpresasByText($searchtext);
+			} else {
+				$results = $this->empm->listEmpresasAll($searchtext);
+			}
 			
 			//Total
 			$total = count($results);
@@ -71,7 +80,10 @@ class Empresas extends CI_Controller {
 		}
 		
 		$data['searchtext'] = $searchtext;
+		$data['searchall'] = $searchall;
 		$this->session->set_userdata('searchtext', $searchtext);
+		$this->session->set_userdata('searchall', $searchall);
+		
 		$this->load->view(self::PAGE_SELF, $data);
 	}
 	
@@ -87,18 +99,22 @@ class Empresas extends CI_Controller {
 		if (empty($_POST)) {
 			$searchtext = $this->session->userdata('searchtext');
 			$searchfamilia = $this->session->userdata('searchfamilia');
+			$searchciclo = $this->session->userdata('searchciclo');
 			$searchconcert = $this->session->userdata('searchconcert');
 		} else {
 			$searchtext = $this->input->post('searchtext');
 			$searchfamilia = $this->input->post('searchfamilia');
+			$searchciclo = $this->input->post('searchciclo');
 			$searchconcert = $this->input->post('searchconcert');
 		}
 		
 		//Familias
-		$data['familiaslist'] = $this->empm->listFamiliasInEmpresas();
+		$data['familiaslist'] = $this->empm->listFamilias();
 		
+		//Ciclos
+		$data['cicloslist'] = $this->empm->listCiclos();
 		
-		if (!strlen($searchtext) && !strlen($searchfamilia) && !strlen($searchconcert)) {
+		if (!strlen($searchtext) && !strlen($searchfamilia) && !strlen($searchciclo) && !strlen($searchconcert)) {
 			//Do nothing
 		} else {
 			//Configuración de la paginación
@@ -109,6 +125,7 @@ class Empresas extends CI_Controller {
 				
 			//Búsqueda
 			$param['familia'] = $searchfamilia;
+			$param['ciclo'] = $searchciclo;
 			$param['concert'] = $searchconcert;
 			$results = $this->empm->listEmpresasByAdvanced($searchtext, $param);
 				
@@ -128,10 +145,12 @@ class Empresas extends CI_Controller {
 		
 		$data['searchtext'] = $searchtext;
 		$data['searchfamilia'] = $searchfamilia;
+		$data['searchciclo'] = $searchciclo;
 		$data['searchconcert'] = $searchconcert;
 		
 		$this->session->set_userdata('searchtext', $searchtext);
 		$this->session->set_userdata('searchfamilia', $searchfamilia);
+		$this->session->set_userdata('searchciclo', $searchciclo);
 		$this->session->set_userdata('searchconcert', $searchconcert);
 		
 		$this->load->view(self::PAGE_SELF, $data);

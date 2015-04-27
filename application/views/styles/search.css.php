@@ -7,6 +7,11 @@
 	left: 75px;
 	top: -20px;
 }
+#searchOptions {
+	position: relative;
+	top: -1.2em;
+	left: 5.5em;
+	}
 #search {
 	margin-top: 20px;
 	position: relative;

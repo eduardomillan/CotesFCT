@@ -42,6 +42,21 @@ class EmpresaModel extends CI_Model {
 	}
 	
 	/**
+	 * Obtains the whole list of 'empresas'
+	 */
+	function listEmpresasAll() {
+		$this->db->from(self::TABLE_EMPRESA);
+		$this->db->order_by('empresa');
+		$res = $this->db->get()->result();
+		if (is_array($res) && count($res) >= 1) {
+			return $res;
+		} else {
+			return NULL;
+		}
+	}
+		
+	
+	/**
 	 * Obtains a list of 'empresas' given a search text and some extra data
 	 * @param unknown $searchtext the text to search
 	 * @param unknown $data some extra data

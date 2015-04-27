@@ -44,11 +44,11 @@
 		echo form_input($datos);
 		
 		
-		//Familias y concierto
+		//Ciclos, familias y concierto
 		if (!empty($advancedsearch)) {
+			
 			//Familias
 			echo form_label('Familia: ', 'searchfamilia');
-			
 			$options = array();
 			$options[''] = '';
 			foreach($familiaslist as $fam):
@@ -56,6 +56,18 @@
 			endforeach;
 			
 			echo form_dropdown('searchfamilia', $options, $this->session->userdata('searchfamilia'));
+			
+			
+			//Ciclos
+			echo form_label('Ciclo: ', 'searchciclo');		
+			$options = array();
+			$options[''] = '';
+			foreach($cicloslist as $cic):
+				$options[$cic->codi] = $cic->codi;
+			endforeach;
+						
+			echo form_dropdown('searchciclo', $options, $this->session->userdata('searchciclo'));
+			
 			
 			//Concierto
 			echo form_label('Concierto: ', 'searchconcert');
@@ -74,9 +86,6 @@
 			<i class="fa fa-search fa-1x"></i> Buscar
 		</a>		
 		
-		<?php
-		echo form_close(); 
-		?>
 		<div id="typeOfSearch">
 		<?php if (empty($advancedsearch)) {?>
 		<div id="advancedSearch">
@@ -88,12 +97,33 @@
 		<div id="simpleSearch">
 			<a href="<? echo site_url('empresas/search')?>">Simple</a>
 		</div>		
-		<?php
-		} 
-		?>				
+		<?php } ?>				
 		</div>
 		<div id="searchHelp">Busca en: Empresa, gerente, población, CIF</div>
+		
+		<div id="searchOptions">
+		<?php if (empty($advancedsearch)) {
+				$js = 'onSearchAll()';
+				$isChecked = (empty($searchall) ? FALSE : TRUE);
+				$datos = array(
+    				'name'        => 'searchall',
+    				'id'          => 'searchall',
+    				'value'       => 'searchall',
+    				'checked'     => $isChecked,
+    				'onClick'       => $js,
+    			);
+				echo form_checkbox($datos); 
+				echo form_hidden("search", "search"); //Rellena el POST
+				echo "Mostrar todas";
+		} ?>
 		</div>
+
+		<?php
+		echo form_close(); 
+		?>
+		</div> <!--Del id=search--> 
+	
+	
 	
 	<div id="results">
 	<?php
@@ -143,7 +173,22 @@
 	?>
 	</div>
 
-<script type="text/javascript" >
-	document.forms[0].searchtext.focus();
+<script type="text/javascript">
+	onSearchAll();
+	
+	function onSearchAll() {
+		var stext = document.getElementById('searchtext');
+		var sall = document.getElementById('searchall');
+		if (sall.checked) {
+			stext.disabled = true;
+			stext.value = "";
+		} else {
+			stext.disabled = false;
+			stext.focus();
+		}
+	}
+	
 </script>
+
+
 <?php $this->load->view('footer'); ?>

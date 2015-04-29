@@ -44,7 +44,7 @@
 				$tmp = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
 				$this->table->set_template($tmp); //aplico los cambios de modificacion anterior			
 				foreach($evalualist as $dato):
-					$link_edit = anchor("evaluaciones/edit/".$empresaId, "<i class=\"fa fa-pencil-square-o fa-1x\"></i>", "title='Editar'");
+					$link_edit = anchor("evaluaciones/edit/$empresaId/$dato->id", "<i class=\"fa fa-pencil-square-o fa-1x\"></i>", "title='Editar'");
 					$this->table->add_row($dato->curso,
 						$dato->ciclo,
 						$dato->eval_ini,

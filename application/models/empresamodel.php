@@ -168,7 +168,6 @@ class EmpresaModel extends CI_Model {
 	
 	/**
 	 * Updates the 'empresa' record in the database
-	 * @param unknown $id the 'empresa' id
 	 * @param unknown $data the rest of the data
 	 */
 	function update($data) {

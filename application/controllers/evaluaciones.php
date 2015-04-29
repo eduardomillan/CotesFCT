@@ -16,8 +16,8 @@ class Evaluaciones extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		//$this->load->library('console');
-		//$this->output->enable_profiler(TRUE);
+		$this->load->library('console');
+		$this->output->enable_profiler(TRUE);
 		
 		$this->load->model('empresamodel','empm');
 		$this->load->model('evaluamodel','evalm');
@@ -40,7 +40,7 @@ class Evaluaciones extends CI_Controller {
 	public function info() {
 		$empresaId = $this->uri->segment(3);
 		$mode = self::MODE_READ;
-		$this->show($empresaId, $mode);
+		$this->show($empresaId, NULL, $mode);
 	}
 	
 	
@@ -48,13 +48,22 @@ class Evaluaciones extends CI_Controller {
 	 * Show 'evaluaciones' from a empresa and set the mode
 	 * @param unknown $mode
 	 */
-	private function show($id, $mode) {
+	private function show($empresaId, $id, $mode) {
 		
-		$data = $this->loadEmpresa($id);
+		$data = $this->loadEmpresa($empresaId);
 		$data['modo'] = $mode;
 		
-		//Show the page
+		//Seleccionar evaluación
 		if ($mode == self::MODE_CREATE) {
+			//En creacion, cargar datos por defecto
+			$data['evaluacion'] = $this->loadDefaultEvaluacion($empresaId);
+		} else if ($mode == self::MODE_UPDATE) {
+			//En edición, seleccionar la evaluación
+			$data['evaluacion'] = $this->loadEvaluacion($id);
+		}		
+		
+		//Show the page
+		if ($mode == self::MODE_CREATE || $mode == self::MODE_UPDATE) {
 			//Crear lista de ciclos
 			$data['cicloslist'] = $this->empm->listCiclos();
 			
@@ -64,9 +73,11 @@ class Evaluaciones extends CI_Controller {
 			//Lista de valores para la evaluación
 			$data['valoreslist'] = $this->loadValores();
 			
+			//Ir a la página de formulario
 			$this->load->view(self::PAGE_SHEET, $data);
 			
 		} else {
+			//Volver a la misma página
 			$this->load->view(self::PAGE_SELF, $data);
 		}
 	}
@@ -78,7 +89,18 @@ class Evaluaciones extends CI_Controller {
 	public function arise() {
 		$empresaId = $this->uri->segment(3);
 		$mode = self::MODE_CREATE;
-		$this->show($empresaId, $mode);
+		$this->show($empresaId, NULL, $mode);
+	}
+	
+	
+	/**
+	 * Edit the 'evaluaciones' data shown
+	 */
+	public function edit() {
+		$empresaId = $this->uri->segment(3);
+		$id = $this->uri->segment(4);
+		$mode = self::MODE_UPDATE;
+		$this->show($empresaId, $id, $mode);
 	}
 	
 	
@@ -88,6 +110,14 @@ class Evaluaciones extends CI_Controller {
 	public function create() {
 		$this->save(self::MODE_CREATE);
 	}
+	
+	
+	/**
+	 * Update the 'evaluacion' data into the database
+	 */
+	public function update() {
+		$this->save(self::MODE_UPDATE);
+	}	
 		
 	
 	/**
@@ -98,27 +128,27 @@ class Evaluaciones extends CI_Controller {
 		//Build array for the model
 		$userdata = $this->input->post();
 		
-		$empresaId = $userdata['empresaId']; 
-		$evaldata = array (
-			'id'=>NULL,
-			'idEmpresa'=>$empresaId,
-			'ciclo'=>$userdata['ciclo'],
-			'curso'=>$userdata['curso'],
-			'eval_ini'=>$userdata['eval_ini'],
-			'eval_fin'=>$userdata['eval_fin'],
-			'observaciones'=>$userdata['observaciones']
-		);
+		$empresaId = $userdata['empresaId'];
+		$id = $userdata['id'];
+		
+		unset($userdata['empresaId']);
+		unset($userdata['nombreEmpresa']);
+		
+		$userdata['idEmpresa'] = $empresaId;
 		
 		//Validate the data
 		if ($this->validate() == FALSE) {
 			//Return to the same page with errors
-			$this->show($empresaId, $mode);
+			$this->show($empresaId, $id, $mode);
 		} else {
 			//Save the data
-			$res = $this->evalm->create($evaldata);
-			$this->show($empresaId, self::MODE_READ);
+			if ($mode == self::MODE_CREATE) {
+				$res = $this->evalm->create($userdata);
+			} else if ($mode == self::MODE_UPDATE) {
+				$res = $this->evalm->update($userdata);
+			}			
+			$this->show($empresaId, NULL, self::MODE_READ);
 		}
-		
 	}	
 	
 	
@@ -144,6 +174,33 @@ class Evaluaciones extends CI_Controller {
 		return $data;
 	}
 	
+	
+	/**
+	 * Loads the 'evaluacion' data given its $id
+	 * @param unknown $id the 'evaluacion' id
+	 */
+	private function loadEvaluacion($id) {
+		$evaluacion = $this->evalm->getEvaluacionById($id);
+		return $evaluacion;
+	}
+	
+	
+	private function loadDefaultEvaluacion($empresaId) {
+		//Seleccionar curso actual
+		$year = date ("Y");
+		$cursosel = ($year-1)."-".$year;
+		//Rellenar array con valores
+		$evaluacion = array(
+				'id'=>NULL,
+				'idEmpresa'=>$empresaId,
+				'curso'=>$cursosel, 
+				'ciclo'=>'',
+				'eval_ini'=>'',
+				'eval_fin'=>'',
+				'observaciones'=>''
+		);
+		return $evaluacion;
+	}
 	
 	/**
 	 * Calculates the available "cursos" for the "evaluaciones"

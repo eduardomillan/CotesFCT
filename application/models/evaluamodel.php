@@ -36,11 +36,27 @@ class EvaluaModel extends CI_Model {
 		} else {
 			return NULL;
 		}
-		
 	}
+		
+		
+	/**
+	 * Obtains the 'evaluacion' row array given its id
+	 * @param unknown $param
+	 * @return unknown|NULL
+	 */
+	function getEvaluacionById($id) {
+		if (strlen($id)) {
+			$this->db->from(self::TABLE_EVALUA);
+			$this->db->where("id", $id);
+			$res = $this->db->get()->row_array();
+			return $res;
+		} else {
+			return NULL;
+		}
+	}		
 	
 	/**
-	 * Creates the 'empresa' record in the database
+	 * Creates the 'evaluacion' record in the database
 	 * @param unknown $data
 	 * @return boolean
 	 */
@@ -48,5 +64,18 @@ class EvaluaModel extends CI_Model {
 		return $this->db->insert(self::TABLE_EVALUA, $data);
 	}
 	
+
+	/**
+	 * Updates the 'evaluacion' record in the database
+	 * @param unknown $id the 'empresa' id
+	 * @param unknown $data the rest of the data
+	 */
+	function update($data) {
+		$id = $data['id'];
+		unset($data['id']);
+	
+		$this->db->where('id', $id);
+		return $this->db->update(self::TABLE_EVALUA, $data);
+	}	
 }
 ?>

@@ -20,7 +20,7 @@
 <h1>Registrar evaluación</h1>
 
 <div id="form">
-      <?php echo form_open("evaluaciones/create");?>
+      <?php echo form_open("evaluaciones/$modo");?>
       <?php $this->load->view('empresa_title');?>
       
 		<div id="actions">
@@ -36,15 +36,14 @@
 		</div>		 
 		
 		<div id="fields">
+		<?php echo form_hidden('id',$evaluacion['id']); ?>
 		<fieldset id="basic">
       <legend>Nuevo registro</legend>
 			
 			<div>
 				<label for="curso" class="required" title="Obligatorio">Curso</label>
 				<?php
-				$year = date ("Y");
-				$cursosel = ($year-1)."-".$year;
-				echo form_dropdown('curso', $cursoslist, $cursosel);
+				echo form_dropdown('curso', $cursoslist, $evaluacion['curso']);
 				?>
 				<span><?php echo form_error('curso'); ?></span>
 			</div>      
@@ -57,32 +56,37 @@
 			foreach($cicloslist as $cic):
 				$options[$cic->codi] = $cic->codi;
 			endforeach;
-			echo form_dropdown('ciclo', $options);
+			echo form_dropdown('ciclo', $options, $evaluacion['ciclo']);
 			?>
 			<span><?php echo form_error('ciclo'); ?></span>
       	</div>
       	
       	<div>
       		<label for="eval_ini	" class="required" title="Obligatorio">E.Ini.</label>
-      		<?php echo form_dropdown('eval_ini', $valoreslist); ?>
+      		<?php echo form_dropdown('eval_ini', $valoreslist, $evaluacion['eval_ini']); ?>
       		<span><?php echo form_error('eval_ini'); ?></span>
       	</div>
       	
       	<div>
       		<label for="eval_fin	" title="Obligatorio">E.Fin.</label>
-      		<?php echo form_dropdown('eval_fin', $valoreslist); ?>
+      		<?php echo form_dropdown('eval_fin', $valoreslist, $evaluacion['eval_fin']); ?>
       		<span><?php echo form_error('eval_fin'); ?></span>
       	</div>
       	
       	<div>
       		<label for="observaciones">Observaciones</label>
-         	<textarea id="observaciones" name="observaciones" rows="1" cols="50"></textarea>
+         	<textarea id="observaciones" name="observaciones" rows="1" cols="50"><?php echo $evaluacion['observaciones']?></textarea>
       	</div>
       </fieldset>   
       </div>  
       
       
       <?php echo form_close(); ?>
+      <!--
+      <div style="position: absolute; top 50em">
+      	<?php echo var_dump($evaluacion); ?>
+      </div>
+      -->
 </div>
 
 <?php $this->load->view('footer'); ?>

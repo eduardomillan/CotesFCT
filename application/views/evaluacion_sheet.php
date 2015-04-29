@@ -63,9 +63,15 @@
       	</div>
       	
       	<div>
-      		<label for="evaluacion" class="required" title="Obligatorio">Evaluación</label>
-      		<?php echo form_dropdown('evaluacion', $valoreslist); ?>
-      		<span><?php echo form_error('evaluacion'); ?></span>
+      		<label for="eval_ini	" class="required" title="Obligatorio">E.Ini.</label>
+      		<?php echo form_dropdown('eval_ini', $valoreslist); ?>
+      		<span><?php echo form_error('eval_ini'); ?></span>
+      	</div>
+      	
+      	<div>
+      		<label for="eval_fin	" title="Obligatorio">E.Fin.</label>
+      		<?php echo form_dropdown('eval_fin', $valoreslist); ?>
+      		<span><?php echo form_error('eval_fin'); ?></span>
       	</div>
       	
       	<div>

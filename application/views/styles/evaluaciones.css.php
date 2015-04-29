@@ -43,5 +43,8 @@ div#fields {
 #dataTable table td {
 	border-color: #CCFFCC;
 }
+#dataTable a {
+	color: #339933;
+}
 
 </style>

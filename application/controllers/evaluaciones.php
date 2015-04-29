@@ -104,7 +104,8 @@ class Evaluaciones extends CI_Controller {
 			'idEmpresa'=>$empresaId,
 			'ciclo'=>$userdata['ciclo'],
 			'curso'=>$userdata['curso'],
-			'evaluacion'=>$userdata['evaluacion'],
+			'eval_ini'=>$userdata['eval_ini'],
+			'eval_fin'=>$userdata['eval_fin'],
 			'observaciones'=>$userdata['observaciones']
 		);
 		
@@ -181,7 +182,7 @@ class Evaluaciones extends CI_Controller {
 	
 		$this->form_validation->set_rules('curso', 'Curso', 'required');
 		$this->form_validation->set_rules('ciclo', 'Ciclo', 'required');
-		$this->form_validation->set_rules('evaluacion', 'Evaluación', 'required');
+		$this->form_validation->set_rules('eval_ini', 'Eval. Inicial', 'required');
 	
 		$this->form_validation->set_error_delimiters('', '');
 	

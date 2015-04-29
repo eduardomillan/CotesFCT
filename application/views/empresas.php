@@ -179,7 +179,7 @@
 	function onSearchAll() {
 		var stext = document.getElementById('searchtext');
 		var sall = document.getElementById('searchall');
-		if (sall.checked) {
+		if (sall!=null && sall.checked) {
 			stext.disabled = true;
 			stext.value = "";
 		} else {

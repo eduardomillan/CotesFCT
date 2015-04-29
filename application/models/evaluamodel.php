@@ -28,7 +28,7 @@ class EvaluaModel extends CI_Model {
 		
 		$this->db->where("idEmpresa", $empresaId);
 		$this->db->order_by("curso", "desc");
-		$this->db->order_by("evaluacion", "asc");
+		$this->db->order_by("eval_ini", "asc");
 		
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {

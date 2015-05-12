@@ -9,6 +9,9 @@ class Empresas extends CI_Controller {
 	const PAGE_SHEET = "empresa_sheet";
 	const PAGE_UPDATE = "empresa_update";
 	const PAGE_ROWS = 20;
+	
+	const SEARCH_SIMPLE = "searchSimple";
+	const SEARCH_ADVANCED = "searchAdvanced";
 
 	/**
 	 * Constructor
@@ -25,7 +28,13 @@ class Empresas extends CI_Controller {
 	 */
 	public function index()
 	{
-		$this->search();
+		$searchtype = $this->session->userdata('searchtype');
+		
+		if ($searchtype == self::SEARCH_ADVANCED) {
+			$this->advancedSearch();
+		} else {
+			$this->search();
+		}
 	}
 	
 	
@@ -81,6 +90,7 @@ class Empresas extends CI_Controller {
 		
 		$data['searchtext'] = $searchtext;
 		$data['searchall'] = $searchall;
+		$this->session->set_userdata('searchtype', self::SEARCH_SIMPLE);
 		$this->session->set_userdata('searchtext', $searchtext);
 		$this->session->set_userdata('searchall', $searchall);
 		
@@ -124,10 +134,12 @@ class Empresas extends CI_Controller {
 			$config['last_link'] = '>|';
 				
 			//Búsqueda
+			$param['searchtext'] = $searchtext;
 			$param['familia'] = $searchfamilia;
 			$param['ciclo'] = $searchciclo;
 			$param['concert'] = $searchconcert;
-			$results = $this->empm->listEmpresasByAdvanced($searchtext, $param);
+			//$results = $this->empm->listEmpresasByAdvanced($searchtext, $param);
+			$results = $this->empm->listEmpresasByEval($param);
 				
 			//Total
 			$total = count($results);
@@ -148,6 +160,7 @@ class Empresas extends CI_Controller {
 		$data['searchciclo'] = $searchciclo;
 		$data['searchconcert'] = $searchconcert;
 		
+		$this->session->set_userdata('searchtype', self::SEARCH_ADVANCED);
 		$this->session->set_userdata('searchtext', $searchtext);
 		$this->session->set_userdata('searchfamilia', $searchfamilia);
 		$this->session->set_userdata('searchciclo', $searchciclo);

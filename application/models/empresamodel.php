@@ -8,8 +8,9 @@
 class EmpresaModel extends CI_Model {
 
 	const TABLE_EMPRESA = "CDE_empresas_BACK2";
-	const TABLE_FAMILIA = "CDE_familias";
-	const TABLE_CICLOS = "CDE_cicleform";
+	const TABLE_FAMILIA = "CDE_famprofesional";
+	const TABLE_CICLO = "CDE_cicleform";
+	const TABLE_EVAL = "CDE_evaluaciones";
 	
 	/**
 	 * Constructor
@@ -56,13 +57,31 @@ class EmpresaModel extends CI_Model {
 	}
 		
 	
+	function listEmpresasByOldEval() {
+		
+		$this->db->from(self::TABLE_EMPRESA);
+
+		$this->db->where("familia <> '' and evaluacio <>'' and curs <>''");
+		$this->db->order_by("empresa");
+		
+		$res = $this->db->get()->result();
+		if (is_array($res) && count($res) >= 1) {
+			return $res;
+		} else {
+			return NULL;
+		}		
+		
+	}	
+	
+	
 	/**
+	 * @deprecated use 'listEmpresasByEval' instead
 	 * Obtains a list of 'empresas' given a search text and some extra data
 	 * @param unknown $searchtext the text to search
 	 * @param unknown $data some extra data
 	 */
 	function listEmpresasByAdvanced($searchtext, $data) {
-		$param = strtolower($searchtext); //To lowercase and then use it in the search
+		$stext = strtolower($searchtext); //To lowercase and then use it in the search
 		$familia = $data['familia'];
 		$concert = $data['concert'];
 		
@@ -70,11 +89,11 @@ class EmpresaModel extends CI_Model {
 		
 		$this->db->where('id >', 0);
 
-		if (strlen($param)) {
-			$this->db->where("(lower(empresa) like '%$param%'", NULL, FALSE);
-			$this->db->or_where("lower(responsable) like '%$param%'", NULL, FALSE);
-			$this->db->or_where("lower(ciutat) like '%$param%'", NULL, FALSE);
-			$this->db->or_where("lower(cif) like '%$param%')", NULL, FALSE);
+		if (strlen($stext)) {
+			$this->db->where("(lower(empresa) like '%$stext%'", NULL, FALSE);
+			$this->db->or_where("lower(responsable) like '%$stext%'", NULL, FALSE);
+			$this->db->or_where("lower(ciutat) like '%$stext%'", NULL, FALSE);
+			$this->db->or_where("lower(cif) like '%$stext%')", NULL, FALSE);
 		}
 
 		if (strlen($familia)) $this->db->where("familia", $familia);
@@ -90,13 +109,50 @@ class EmpresaModel extends CI_Model {
 		}
 	}
 	
+	
 	/**
-	 * Obtains a list of 'familias' from the database
-	 * @return unknown|NULL
+	 * Obtains the list of empresas which have been evaluated and links that evaluation record
+	 * @param unknown $data
 	 */
-	function listFamilias() {
-		$this->db->from(self::TABLE_FAMILIA);
-		$this->db->order_by('nombre');
+	function listEmpresasByEval($data) {
+		$stext = $data['searchtext'];
+		$familia = $data['familia'];
+		$ciclo = $data['ciclo'];
+		$concert = $data['concert'];
+		
+		$tbEmpresa = self::TABLE_EMPRESA;
+		$tbEval = self::TABLE_EVAL;
+		$tbFamilia = self::TABLE_FAMILIA;
+		$tbCiclo = self::TABLE_CICLO;
+		
+		$this->db->select(
+				"$tbEmpresa.id,$tbEmpresa.empresa,$tbEmpresa.responsable,$tbEmpresa.ciutat,
+				$tbEmpresa.cif,$tbEmpresa.telf,$tbEmpresa.concert,$tbFamilia.codi as familia"
+				);
+		
+		$this->db->distinct();
+		$this->db->from($tbEmpresa);
+		
+		$this->db->join($tbEval, "$tbEmpresa.id = $tbEval.idEmpresa", "inner");
+		$this->db->join($tbCiclo, "$tbEval.ciclo = $tbCiclo.codi", "inner");
+		$this->db->join($tbFamilia, "$tbCiclo.idf = $tbFamilia.id", "inner");
+		
+		$this->db->where("$tbEmpresa.id >", 0);
+		
+		if (strlen($stext)) {
+			$this->db->where("(lower(empresa) like '%$stext%'", NULL, FALSE);
+			$this->db->or_where("lower(responsable) like '%$stext%'", NULL, FALSE);
+			$this->db->or_where("lower(ciutat) like '%$stext%'", NULL, FALSE);
+			$this->db->or_where("lower(cif) like '%$stext%')", NULL, FALSE);
+		}
+		
+		if (strlen($familia)) $this->db->where("$tbFamilia.codi", $familia);
+		if (strlen($ciclo)) $this->db->where("$tbCiclo.codi", $ciclo);
+		if (strlen($concert)) $this->db->where("concert", $concert);
+		
+		$this->db->order_by("familia,empresa");
+		
+		
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {
 			return $res;
@@ -107,11 +163,28 @@ class EmpresaModel extends CI_Model {
 	
 	
 	/**
-	 * Obtains a list of 'ciclos' from the database
+	 * Obtains a list of 'familias' from the database
+	 * @return unknown|NULL
+	 */
+	function listFamilias() {
+		$this->db->from(self::TABLE_FAMILIA);
+		$this->db->order_by('codi');
+		$res = $this->db->get()->result();
+		if (is_array($res) && count($res) >= 1) {
+			return $res;
+		} else {
+			return NULL;
+		}
+	}
+	
+	
+	/**
+	 * Obtains a list of 'ciclos' from the database (only LOE)
 	 * @return unknown|NULL
 	 */
 	function listCiclos() {
-		$this->db->from(self::TABLE_CICLOS);
+		$this->db->from(self::TABLE_CICLO);
+		$this->db->where("tipo", "LOE");
 		$this->db->order_by('codi');
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {

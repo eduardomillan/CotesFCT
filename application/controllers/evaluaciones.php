@@ -93,6 +93,29 @@ class Evaluaciones extends CI_Controller {
 	}
 	
 	
+	public function migrate() {
+		$empresalist = $this->empm->listEmpresasByOldEval();
+		
+		foreach ($empresalist as $e) {
+			
+			$data = array(
+				"id" => NULL,
+				"idEmpresa" => $e->id,
+				"ciclo" => $e->familia,
+				"curso" => $e->curs,
+				"eval_ini" => $e->evalua_anterior,
+				"eval_fin" => $e->evaluacio,
+				"observaciones" => "Migrado"
+			);
+			
+			$res = $this->evalm->create($data);
+			
+		}
+		
+		$this->index();
+	}	
+	
+	
 	/**
 	 * Edit the 'evaluaciones' data shown
 	 */

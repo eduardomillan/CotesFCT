@@ -40,6 +40,7 @@
 				'id'          => 'searchtext',
 				'value'       => $this->session->userdata('searchtext'),
 				'size'        => '25',
+				'onkeypress'  => 'searchIfEnter(event)'
 		);
 		echo form_input($datos);
 		
@@ -52,7 +53,7 @@
 			$options = array();
 			$options[''] = '';
 			foreach($familiaslist as $fam):
-				$options[$fam->nombre] = $fam->nombre;
+				$options[$fam->codi] = $fam->codi;
 			endforeach;
 			
 			echo form_dropdown('searchfamilia', $options, $this->session->userdata('searchfamilia'));
@@ -175,6 +176,10 @@
 
 <script type="text/javascript">
 	onSearchAll();
+
+	<?php if (empty($advancedsearch)) { ?>
+	viewColumn(1,false);
+	<?php } ?>		
 	
 	function onSearchAll() {
 		var stext = document.getElementById('searchtext');
@@ -186,6 +191,23 @@
 			stext.disabled = false;
 			stext.focus();
 		}
+	}
+	
+	function viewColumn(num,ver) {
+   	dis = ver ? '' : 'none';
+   	
+   	cab = document.getElementById('dataTable').getElementsByTagName('th');
+   	cab[num].style.display=dis;
+   	
+  		fila = document.getElementById('dataTable').getElementsByTagName('tr');
+  		for(i=1;i<fila.length;i++)
+    		fila[i].getElementsByTagName('td')[num].style.display=dis;
+	}
+	
+	function searchIfEnter(e) {
+		ky = (document.all) ? e.keyCode : e.which;
+		if (ky == 13) 
+			document.forms[0].submit();
 	}
 	
 </script>

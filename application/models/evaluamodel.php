@@ -77,5 +77,18 @@ class EvaluaModel extends CI_Model {
 		$this->db->where('id', $id);
 		return $this->db->update(self::TABLE_EVALUA, $data);
 	}	
+	
+	
+	/**
+	 * Deletes some 'evaluacion'
+	 * @param unknown $id
+	 */
+	function delete($id) {
+		
+		$this->db->where('id', $id);
+		$this->db->delete(self::TABLE_EVALUA);
+	}
+	
+	
 }
 ?>

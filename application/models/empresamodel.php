@@ -10,7 +10,7 @@ class EmpresaModel extends CI_Model {
 	const TABLE_EMPRESA = "CDE_empresas_BACK2";
 	const TABLE_FAMILIA = "CDE_famprofesional";
 	const TABLE_CICLO = "CDE_cicleform";
-	const TABLE_EVAL = "CDE_evaluaciones";
+	const TABLE_EVALUA = "CDE_evaluaciones";
 	
 	/**
 	 * Constructor
@@ -121,7 +121,7 @@ class EmpresaModel extends CI_Model {
 		$concert = $data['concert'];
 		
 		$tbEmpresa = self::TABLE_EMPRESA;
-		$tbEval = self::TABLE_EVAL;
+		$tbEval = self::TABLE_EVALUA;
 		$tbFamilia = self::TABLE_FAMILIA;
 		$tbCiclo = self::TABLE_CICLO;
 		
@@ -184,7 +184,7 @@ class EmpresaModel extends CI_Model {
 	 */
 	function listCiclos() {
 		$this->db->from(self::TABLE_CICLO);
-		$this->db->where("tipo", "LOE");
+		//$this->db->where("tipo", "LOE");
 		$this->db->order_by('codi');
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {
@@ -249,6 +249,23 @@ class EmpresaModel extends CI_Model {
 		
 		$this->db->where('id', $id);
 		return $this->db->update(self::TABLE_EMPRESA, $data);
+	}
+	
+	
+	/**
+	 * Deletes the 'empresa' record and associated 'evaluaciones'
+	 * @param unknown $id
+	 */
+	function delete($id) {
+		
+		//Delete the empresa record
+		$this->db->where('id', $id);
+		$this->db->delete(self::TABLE_EMPRESA);
+		
+		//Delete the evaluaciones records
+		$this->db->where('idEmpresa', $id);
+		$this->db->delete(self::TABLE_EVALUA);
+		
 	}
 	
 }

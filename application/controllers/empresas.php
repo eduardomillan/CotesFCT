@@ -18,9 +18,11 @@ class Empresas extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('console');
-		$this->output->enable_profiler(TRUE);
+		/*$this->load->library('console');
+		$this->output->enable_profiler(TRUE);*/
 		$this->load->model('empresamodel','empm');
+		$this->load->model('evaluamodel','evalm');
+		
 	}
 	
 	/**
@@ -220,6 +222,7 @@ class Empresas extends CI_Controller {
 		$this->load->view(self::PAGE_SHEET, $data);
 	}
 	
+	
 	/**
 	 * Update the 'empresa' data into the database
 	 */
@@ -227,11 +230,24 @@ class Empresas extends CI_Controller {
 		$this->save(self::MODE_UPDATE);
 	}
 	
+	
 	/**
 	 * Create a new 'empresa' record into the database
 	 */
 	public function create() {
 		$this->save(self::MODE_CREATE);
+	}
+	
+	
+	/**
+	 * Deletes all the 'empresa' data
+	 */
+	public function delete() {
+		
+		$empresaId = $this->uri->segment(3);
+		$this->empm->delete($empresaId);
+		$this->index();
+		
 	}
 	
 	

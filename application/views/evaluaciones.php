@@ -28,8 +28,12 @@
 			    </a>	
 			</div>	
 		
-			<div id="buttonBack">
-				<a class="button" href="<?php echo site_url('empresas/info/'.$empresaId); ?>">Volver ></a>
+			<div id="buttonEmp">
+				<a class="button" href="<?php echo site_url('empresas/info/'.$empresaId); ?>">Empresa ></a>
+			</div>
+
+			<div id="buttonSearch">
+				<a class="button" href="<?php echo site_url('empresas'); ?>">Listado ></a>
 			</div>
 		</div>		
 				
@@ -45,12 +49,24 @@
 				$this->table->set_template($tmp); //aplico los cambios de modificacion anterior			
 				foreach($evalualist as $dato):
 					$link_edit = anchor("evaluaciones/edit/$empresaId/$dato->id", "<i class=\"fa fa-pencil-square-o fa-1x\"></i>", "title='Editar'");
+					$link_del = "";
+					$js_del = "return confirm('Borrar registro, ¿Está seguro?')";
+					
+					if ($nivel == 1) {
+						$link_del = anchor("evaluaciones/delete/$empresaId/$dato->id", 
+										"<i class=\"fa fa-trash-o fa-1x\"></i>",
+										array(
+											'title' => 'Borrar',
+											'onclick' => $js_del
+										)); 
+					}
+					
 					$this->table->add_row($dato->curso,
 						$dato->ciclo,
 						$dato->eval_ini,
 						$dato->eval_fin,
 						$dato->observaciones,
-						$link_edit
+						$link_edit." ".$link_del
 						);
 				endforeach;
 			

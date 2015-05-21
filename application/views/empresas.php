@@ -39,7 +39,7 @@
 				'name'        => 'searchtext',
 				'id'          => 'searchtext',
 				'value'       => $this->session->userdata('searchtext'),
-				'size'        => '25',
+				'size'        => '20',
 				'onkeypress'  => 'searchIfEnter(event)'
 		);
 		echo form_input($datos);
@@ -145,8 +145,10 @@
 		foreach($empresaslist as $dato):
 		
 			$link_info = anchor("empresas/info/".$dato->id, "<i class=\"fa fa-info-circle fa-1x\"></i>", "title='Información'");
+			$link_eval = anchor("evaluaciones/info/".$dato->id, "<i class=\"fa fa-check-square fa-1x\"></i>", "title='Evaluaciones'");
 			$link_edit = "";
 			$link_del = "";
+			$js_del = "return confirm('Borrar registro, ¿Está seguro?')";
 			
 			//Control de acceso por nivel de usuario
 			if ($nivel <= 3) {
@@ -154,13 +156,17 @@
 			}
 			
 			if ($nivel == 1) {
-				//$link_del = anchor("empresas/delete/".$dato->id, img(array("src"=>"images/ico_m_del.png", "alt"=>"Borrar", "title"=>"Borrar")));
+				$link_del = anchor("empresas/delete/".$dato->id, "<i class=\"fa fa-trash-o fa-1x\"></i>", 
+										array(
+											'title' => 'Borrar',
+											'onclick' => $js_del
+										)); 
 			}
 		
 			$this->table->add_row($cont,$dato->familia,$dato->empresa,
 					$dato->responsable,$dato->ciutat,$dato->telf,
 					$dato->cif,$dato->concert,
-					$link_info." ".$link_edit." ".$link_del);
+					$link_info." ".$link_eval." ".$link_del);
 			$cont++;
 		endforeach;
 		

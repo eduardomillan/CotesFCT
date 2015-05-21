@@ -16,8 +16,8 @@ class Evaluaciones extends CI_Controller {
 	 */
 	public function __construct() {
 		parent::__construct();
-		$this->load->library('console');
-		$this->output->enable_profiler(TRUE);
+		//$this->load->library('console');
+		//$this->output->enable_profiler(TRUE);
 		
 		$this->load->model('empresamodel','empm');
 		$this->load->model('evaluamodel','evalm');
@@ -93,7 +93,7 @@ class Evaluaciones extends CI_Controller {
 	}
 	
 	
-	public function migrate() {
+	private function migrate() {
 		$empresalist = $this->empm->listEmpresasByOldEval();
 		
 		foreach ($empresalist as $e) {
@@ -188,7 +188,8 @@ class Evaluaciones extends CI_Controller {
 		
 		//Set the request data
 		$data['empresaId'] = $empresaId;
-		$data['nombreEmpresa'] = addslashes($empresa['empresa']);
+		//$data['nombreEmpresa'] = addslashes($empresa['empresa']);
+		$data['nombreEmpresa'] = $empresa['empresa'];
 		$data['empresa'] = $empresa;
 		
 		//Obtain the different evaluaciones
@@ -267,6 +268,22 @@ class Evaluaciones extends CI_Controller {
 		$this->form_validation->set_error_delimiters('', '');
 	
 		return $this->form_validation->run();
+	}
+	
+	
+	/**
+	 * Deletes some 'evaluacion'
+	 */
+	public function delete() {
+		
+		$empresaId = $this->uri->segment(3);
+		$id = $this->uri->segment(4);
+		
+		$this->evalm->delete($id);
+		
+		$mode = self::MODE_READ;
+		$this->show($empresaId, NULL, $mode);
+		
 	}
 	
 }

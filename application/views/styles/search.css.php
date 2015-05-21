@@ -13,9 +13,11 @@
 	left: 5.5em;
 	}
 #search {
-	margin-top: 20px;
+	margin-top: 1.5em;
+	margin-bottom: 1em;
 	position: relative;
-	left: 50px;
+	left: 2em;
+	top: 2em;
 }
 #typeOfSearch {
 }

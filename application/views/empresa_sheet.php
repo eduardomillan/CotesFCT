@@ -34,8 +34,15 @@
   			    </a>
 			</div>
 			<?php } ?>
-			<div id="buttonBack">
-				<a class="button" href="<?php echo site_url('empresas')?>">Volver ></a>
+			<?php if ($modo == "read") { ?>
+			<div id="buttonEval">
+				<a class="button" href="<?php echo site_url('evaluaciones/info/'.$empresaId)?>">
+					<i class="fa fa-check-square fa-1x"></i> Evaluaciones
+				</a>
+			</div>
+			<?php } ?>
+			<div id="buttonSearch">
+				<a class="button" href="<?php echo site_url('empresas')?>">Listado ></a>
 			</div>
 		</div>		
 		
@@ -187,12 +194,10 @@
       <legend>FCT</legend>
       <div style="display: inline-flex">
          <label class=".textLabel">Información sobre las evaluaciones de la empresa</label>
-         <a class="button" href="<?php echo site_url('evaluaciones/info/'.$empresaId); ?>">
-         <i class="fa fa-check-square fa-1x"></i> Evaluaciones</a>
       </div>	    
       </fieldset>	 
-      <?php } ?>   
-	    
+	   <?php } ?>
+	   
       <fieldset id="other">
       	<legend>Otra información</legend>
 	    

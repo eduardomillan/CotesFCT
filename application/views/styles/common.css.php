@@ -50,6 +50,14 @@
 	color: red;
 	font-weight: bold;
 }
+#container #actions {
+	text-align: right;
+	float: right;
+	top: 0.8em;
+	position: relative;
+	margin-right: 0.7em;
+	z-index: 1;
+}
 #dataTable, #dataTable table {
 	margin: 0 auto;
 }
@@ -176,13 +184,5 @@ p {
 	text-align: right;
 	font-size: 10px;
 	margin: 0 auto;
-}
-#container #actions {
-	text-align: right;
-	float: right;
-	top: 1.5em;
-	position: relative;
-	margin-right: 0.7em;
-	z-index: 1;
 }
 </style>

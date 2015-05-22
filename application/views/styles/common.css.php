@@ -6,6 +6,7 @@
 	position: absolute;
 	top: 6px;
 	right: 15px;
+	color: white;
 }
 #closeSession a {
 	color: white;
@@ -77,7 +78,7 @@
 }
 #dataTable table td {
 	max-width: 200px;
-    white-space: nowrap;
+   white-space: nowrap;
 	overflow: hidden;
 	text-overflow: ellipsis;
 	border-color: #C2FCFF;

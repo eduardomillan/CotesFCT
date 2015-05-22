@@ -216,8 +216,27 @@ class Empresas extends CI_Controller {
 		$data['empresa'] = $empresa;
 		$data['modo'] = $mode;		
 		
-		//Familias
+		//Familias (deprecated)
 		$data['familiaslist'] = NULL;
+		
+		//Evaluaciones
+		$data['evalualist'] = $this->evalm->listEvaluaByEmpresa($empresaId);
+		
+		//Evaluaciones message
+		$evalinfo = "";
+		$evals = $data['evalualist'];
+		if (empty($evals)) {
+			$evalinfo = "No hay registrada ninguna evaluación para esta empresa.";
+		} else {
+			$evalinfo = "Última evaluación realizada el curso ".$evals[0]->curso
+					." para el ciclo ".$evals[0]->ciclo
+					." con eval. inicial ".$evals[0]->eval_ini;
+			
+			if (!empty($evals[0]->eval_fin)) {
+				$evalinfo = $evalinfo." y eval. final ".$evals[0]->eval_fin;
+			}
+		}
+		$data['evalinfo'] = $evalinfo;
 		
 		$this->load->view(self::PAGE_SHEET, $data);
 	}

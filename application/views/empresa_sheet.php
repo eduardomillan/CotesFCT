@@ -193,7 +193,7 @@
       <fieldset id="fct">
       <legend>FCT</legend>
       <div style="display: inline-flex">
-         <label class=".textLabel">Información sobre las evaluaciones de la empresa</label>
+         <label class=".textLabel"><?php echo $evalinfo ?></label>
       </div>	    
       </fieldset>	 
 	   <?php } ?>

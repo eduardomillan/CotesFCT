@@ -50,7 +50,7 @@ class Evaluaciones extends CI_Controller {
 	 */
 	private function show($empresaId, $id, $mode) {
 		
-		$data = $this->loadEmpresa($empresaId);
+		$data = $this->loadEmpresa($empresaId); //Loads the 'empresa' data and its 'evaluaciones'
 		$data['modo'] = $mode;
 		
 		//Seleccionar evaluación
@@ -208,7 +208,11 @@ class Evaluaciones extends CI_Controller {
 		return $evaluacion;
 	}
 	
-	
+	/**
+	 * Returns an empty 'evaluacion' with default values 
+	 * @param unknown $empresaId
+	 * @return multitype:NULL string unknown
+	 */
 	private function loadDefaultEvaluacion($empresaId) {
 		//Seleccionar curso actual
 		$year = date ("Y");

@@ -89,6 +89,5 @@ class EvaluaModel extends CI_Model {
 		$this->db->delete(self::TABLE_EVALUA);
 	}
 	
-	
 }
 ?>

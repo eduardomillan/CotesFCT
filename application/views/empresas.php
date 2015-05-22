@@ -78,6 +78,7 @@
 					'id'          => 'searchconcert',
 					'value'       => $this->session->userdata('searchconcert'),
 					'size'        => '15',
+					'onkeypress'  => 'searchIfEnter(event)'
 			);
 			echo form_input($datos);
 		}
@@ -116,7 +117,7 @@
 				echo form_checkbox($datos); 
 				echo form_hidden("search", "search"); //Rellena el POST
 				echo "Mostrar todas";
-		} ?>
+		} ?>index
 		</div>
 
 		<?php
@@ -136,8 +137,13 @@
 	}
 		
 	if (!empty($empresaslist)) {
+		
 		echo "<div id='dataTable'>";
-		$this->table->set_heading('Nº','Familia','Empresa','Gerente','Población','Telf.','CIF','Conc.',''); //crea la primera fila de la tabla con el encabezado
+		if (empty($advancedsearch)) {
+			$this->table->set_heading('Nº','Empresa','Gerente','Población','Telf.','CIF','Conc.',''); //crea la primera fila de la tabla con el encabezado
+		} else {
+			$this->table->set_heading('Nº','Ciclo','Curso','Empresa','Gerente','Población','Telf.','CIF','Conc.','');
+		}
 		$tmp = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
 		$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
 		
@@ -162,11 +168,31 @@
 											'onclick' => $js_del
 										)); 
 			}
-		
-			$this->table->add_row($cont,$dato->familia,$dato->empresa,
-					$dato->responsable,$dato->ciutat,$dato->telf,
-					$dato->cif,$dato->concert,
-					$link_info." ".$link_eval." ".$link_del);
+			$links = $link_info." ".$link_eval." ".$link_del;
+			
+			if (empty($advancedsearch)) {
+				$this->table->add_row(
+					$cont,
+					$dato->empresa,
+					$dato->responsable,
+					$dato->ciutat,
+					$dato->telf,
+					$dato->cif,
+					$dato->concert,
+					$links);
+			} else {
+				$this->table->add_row(
+					$cont,
+					$dato->ciclo,
+					$dato->curso,
+					$dato->empresa,
+					$dato->responsable,
+					$dato->ciutat,
+					$dato->telf,
+					$dato->cif,
+					$dato->concert,
+					$links);
+			}
 			$cont++;
 		endforeach;
 		
@@ -184,7 +210,7 @@
 	onSearchAll();
 
 	<?php if (empty($advancedsearch)) { ?>
-	viewColumn(1,false);
+	//viewColumn(1,false);
 	<?php } ?>		
 	
 	function onSearchAll() {
@@ -199,6 +225,7 @@
 		}
 	}
 	
+	//Not needed, deprecated
 	function viewColumn(num,ver) {
    	dis = ver ? '' : 'none';
    	

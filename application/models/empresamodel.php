@@ -127,7 +127,8 @@ class EmpresaModel extends CI_Model {
 		
 		$this->db->select(
 				"$tbEmpresa.id,$tbEmpresa.empresa,$tbEmpresa.responsable,$tbEmpresa.ciutat,
-				$tbEmpresa.cif,$tbEmpresa.telf,$tbEmpresa.concert,$tbFamilia.codi as familia"
+				$tbEmpresa.cif,$tbEmpresa.telf,$tbEmpresa.email,$tbEmpresa.concert,
+				$tbFamilia.codi as familia,$tbEval.ciclo,$tbEval.curso"
 				);
 		
 		$this->db->distinct();
@@ -150,7 +151,7 @@ class EmpresaModel extends CI_Model {
 		if (strlen($ciclo)) $this->db->where("$tbCiclo.codi", $ciclo);
 		if (strlen($concert)) $this->db->where("concert", $concert);
 		
-		$this->db->order_by("familia,empresa");
+		$this->db->order_by("familia,ciclo,curso desc,empresa");
 		
 		
 		$res = $this->db->get()->result();

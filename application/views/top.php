@@ -6,9 +6,10 @@
 </div>
 
 <div id="closeSession">
-	Usuario: <span id="user"><?php echo $this->session->userdata('user'); ?></span>
 	<a href="<?php echo site_url('login/logout')?>" title="Salir">
-		<i class="fa fa-sign-out fa-2x" style="z-index: 1"></i>
+		Usuario: 	
+		<span id="user"><?php echo $this->session->userdata('user'); ?></span>
+		<i class="fa fa-sign-out fa-1x"></i>
 	</a>
 </div>
 

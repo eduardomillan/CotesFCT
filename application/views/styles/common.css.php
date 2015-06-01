@@ -54,10 +54,14 @@
 #container #actions {
 	text-align: right;
 	float: right;
-	top: 0.8em;
+	top: 0.5em;
+	right: 0.5em;
 	position: relative;
 	margin-right: 0.7em;
 	z-index: 1;
+}
+#actions div {
+	display: inline;
 }
 #dataTable, #dataTable table {
 	margin: 0 auto;

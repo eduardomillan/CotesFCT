@@ -19,10 +19,6 @@
 
 <h1>Registrar evaluación</h1>
 
-<div id="form">
-      <?php echo form_open("evaluaciones/$modo");?>
-      <?php $this->load->view('empresa_title');?>
-      
 		<div id="actions">
 			<div id="buttonSave">
 			    <a class="button" href="#" onclick="javascript:document.forms[0].submit()">
@@ -34,6 +30,11 @@
 			</div>
 
 		</div>		 
+
+
+	<div id="form">
+      <?php echo form_open("evaluaciones/$modo");?>
+      <?php $this->load->view('empresa_title');?>
 		
 		<div id="fields">
 		<?php echo form_hidden('id',$evaluacion['id']); ?>
@@ -87,6 +88,6 @@
       	<?php echo var_dump($evaluacion); ?>
       </div>
       -->
-</div>
+	</div>
 
 <?php $this->load->view('footer'); ?>

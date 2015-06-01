@@ -31,7 +31,7 @@ class Login extends CI_Controller {
 	public function index()
 	{
 		if ($this->isUserSession() == TRUE) {
-			$this->load->view(self::WELCOME_PAGE);
+			redirect('empresas');
 		} else {
 			$this->load->view(self::LOGIN_PAGE);
 		}

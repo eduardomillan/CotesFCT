@@ -81,16 +81,4 @@ label.required {
 	font-weight: 500;
   	color: #C00;
 }
-#container #actions {
-	text-align: right;
-	top: -1em;
-	position: absolute;
-	margin-right: 0.7em;
-	z-index: 1;
-	right: 0.5em;
-}
-#actions div {
-	display: inline;
-}
-
 </style>

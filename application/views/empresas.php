@@ -11,16 +11,24 @@
 
 	<h1>Búsqueda de empresas</h1>
 	
-	
 	<div id="actions">
 		<?php if ($nivel == 1) { ?>
 		<div id="buttonNew">
-				<a class="button" href="<?php echo site_url('empresas/arise'); ?>" title="Nueva">
-					<i class="fa fa-plus-square fa-1x"></i> Nueva
-				</a>
+			<a class="button" href="<?php echo site_url('empresas/arise'); ?>" title="Nueva">
+				<i class="fa fa-plus-square fa-1x"></i> Nueva
+			</a>
 		</div>	
 		<?php } ?>	
+		<?php 	
+		if (isset($total) && $total > 0) { ?>	
+		<div id="buttonPDF">
+			<a class="button" href="<?php echo site_url('empresas/getpdf'); ?>" title="PDF">
+				<i class="fa fa-file-pdf-o fa-1x"></i> PDF
+			</a>
+		</div>
+		<?php } ?>	
 	</div>	
+	
 	
 	<div id="search">
 	
@@ -117,7 +125,7 @@
 				echo form_checkbox($datos); 
 				echo form_hidden("search", "search"); //Rellena el POST
 				echo "Mostrar todas";
-		} ?>index
+		} ?>
 		</div>
 
 		<?php
@@ -140,9 +148,9 @@
 		
 		echo "<div id='dataTable'>";
 		if (empty($advancedsearch)) {
-			$this->table->set_heading('Nº','Empresa','Gerente','Población','Telf.','CIF','Conc.',''); //crea la primera fila de la tabla con el encabezado
+			$this->table->set_heading('Nº','Empresa','Gerente','Población','Telf.','@','CIF','Conc.',''); //crea la primera fila de la tabla con el encabezado
 		} else {
-			$this->table->set_heading('Nº','Ciclo','Curso','Empresa','Gerente','Población','Telf.','CIF','Conc.','');
+			$this->table->set_heading('Nº','Ciclo','Curso','Empresa','Gerente','Población','Telf.','@','CIF','Conc.','');
 		}
 		$tmp = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
 		$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
@@ -156,7 +164,7 @@
 			$link_del = "";
 			$js_del = "return confirm('Borrar registro, ¿Está seguro?')";
 			
-			//Control de acceso por nivel de usuario
+			//Enlaces. Control de acceso por nivel de usuario
 			if ($nivel <= 3) {
 				$link_edit = anchor("empresas/edit/".$dato->id, "<i class=\"fa fa-pencil-square-o fa-1x\"></i>", "title='Editar'");
 			}
@@ -170,6 +178,15 @@
 			}
 			$links = $link_info." ".$link_eval." ".$link_del;
 			
+			//Correo electrónico
+			$link_email = "";
+			if (!empty($dato->email)) {
+				$link_email = mailto($dato->email, "<i class=\"fa fa-envelope-o fa-1x\"></i>", 
+									array(
+										'title' => $dato->email
+									));
+			}
+			
 			if (empty($advancedsearch)) {
 				$this->table->add_row(
 					$cont,
@@ -177,6 +194,7 @@
 					$dato->responsable,
 					$dato->ciutat,
 					$dato->telf,
+					$link_email,
 					$dato->cif,
 					$dato->concert,
 					$links);
@@ -189,6 +207,7 @@
 					$dato->responsable,
 					$dato->ciutat,
 					$dato->telf,
+					$link_email,
 					$dato->cif,
 					$dato->concert,
 					$links);

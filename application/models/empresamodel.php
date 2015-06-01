@@ -7,7 +7,7 @@
  */
 class EmpresaModel extends CI_Model {
 
-	const TABLE_EMPRESA = "CDE_empresas_BACK2";
+	const TABLE_EMPRESA = "CDE_empresas";
 	const TABLE_FAMILIA = "CDE_famprofesional";
 	const TABLE_CICLO = "CDE_cicleform";
 	const TABLE_EVALUA = "CDE_evaluaciones";

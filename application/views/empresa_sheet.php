@@ -15,12 +15,7 @@
 <?php $this->load->view('top');?>
 
    <h1>Ficha de empresa (<span id="modo">modo</span>)</h1>
-   
-   <div id="form">
-      <?php echo form_open("empresas/$modo");?>
-   	<?php $this->load->view('empresa_title');?>
-   	<input type="hidden" name="id" value="<?php echo $empresaId ?>" />
-		
+
 		<div id="actions">
 			<?php if ($nivel <= 3 && $modo == "read") { ?>
 			<div id="buttonEdit">
@@ -42,9 +37,14 @@
 			</div>
 			<?php } ?>
 			<div id="buttonSearch">
-				<a class="button" href="<?php echo site_url('empresas')?>">Listado ></a>
+				<a class="button" href="<?php echo site_url('empresas')?>">Búsqueda ></a>
 			</div>
 		</div>		
+   
+   <div id="form">
+      <?php echo form_open("empresas/$modo");?>
+   	<?php $this->load->view('empresa_title');?>
+   	<input type="hidden" name="id" value="<?php echo $empresaId ?>" />
 		
       <fieldset id="basic">
       <legend>Empresa</legend>

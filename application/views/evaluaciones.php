@@ -17,10 +17,7 @@
 <?php $this->load->view('top');?>
 
 	<h1>Evaluaciones</h1>
-	<?php echo form_open("");?>
-	<div id="form">
-   	<?php $this->load->view('empresa_title');?>
-		
+
 		<div id="actions">
 			<div id="buttonNew">
 			    <a class="button" href="<?php echo site_url('evaluaciones/arise/'.$empresaId); ?>" title="Nueva">
@@ -33,10 +30,13 @@
 			</div>
 
 			<div id="buttonSearch">
-				<a class="button" href="<?php echo site_url('empresas'); ?>">Listado ></a>
+				<a class="button" href="<?php echo site_url('empresas'); ?>">Búsqueda ></a>
 			</div>
 		</div>		
-				
+	
+	<?php echo form_open("");?>
+	<div id="form">
+   	<?php $this->load->view('empresa_title');?>
 		
 		<?php if (empty($evalualist)) { ?>
 		<div id="noEvalua">

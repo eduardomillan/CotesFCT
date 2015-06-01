@@ -10,6 +10,8 @@ class Empresas extends CI_Controller {
 	const PAGE_UPDATE = "empresa_update";
 	const PAGE_ROWS = 20;
 	
+	const PDF_FILENAME = "listado.pdf";
+	
 	const SEARCH_SIMPLE = "searchSimple";
 	const SEARCH_ADVANCED = "searchAdvanced";
 
@@ -337,6 +339,81 @@ class Empresas extends CI_Controller {
 		$this->form_validation->set_error_delimiters('', '');
 		
 		return $this->form_validation->run();
+	}
+	
+	/**
+	 * Obtains the PDF version from the list
+	 */
+	public function getpdf() {
+		
+		//establecemos la carpeta en la que queremos guardar los pdfs,
+		//si no existen las creamos y damos permisos
+		$this->createFolder();
+		
+		//importante el slash del final o no funcionará correctamente
+		$this->html2pdf->folder('./files/pdfs/');
+		
+		//establecemos el nombre del archivo
+		$this->html2pdf->filename(self::PDF_FILENAME);
+		
+		//establecemos el tipo de papel
+		$this->html2pdf->paper('a4', 'portrait');
+		
+		//Obtenemos los datos para el listado
+		$searchtext = $this->session->userdata('searchtext');
+		$searchall = $this->session->userdata('searchall');
+		
+		//Búsqueda
+		if (empty($searchall)) {
+			$results = $this->empm->listEmpresasByText($searchtext);
+		} else {
+			$results = $this->empm->listEmpresasAll($searchtext);
+		}
+		
+		$data['empresaslist'] = $results;
+		
+		//hacemos que coja la vista como datos a imprimir
+		//importante utf8_decode para mostrar bien las tildes, ñ y demás
+		$this->html2pdf->html($this->load->view('pdf/empresas_simple', $data, TRUE));
+		
+		//si el pdf se guarda correctamente lo mostramos en pantalla
+		if($this->html2pdf->create('save'))	{
+            $route = base_url("files/pdfs/".self::PDF_FILENAME);
+            
+            
+            if(file_exists("./files/pdfs/".self::PDF_FILENAME)) {
+
+            	/*
+            	//Mostrar en navegador
+            	header('Content-type: application/pdf');
+            	*/
+            	 
+            	//O descargar
+            	header("Cache-Control: public");
+            	header("Content-Description: File Transfer");
+            	header('Content-disposition: attachment; filename='.basename($route));
+            	header("Content-Type: application/force-download");
+            	header("Content-Transfer-Encoding: binary");
+            	header('Content-Length: '. filesize($route));
+            	
+            	//Enviar archivo al navegador
+                readfile($route);
+            }
+            
+            
+		}
+	}
+	
+	
+	/**
+	 * Creates the PDF folder needed
+	 */
+	private function createFolder() {
+		if(!is_dir("./files"))
+		{
+			mkdir("./files", 0777);
+			mkdir("./files/pdfs", 0777);
+		}
 	}
 }
 ?>

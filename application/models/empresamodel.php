@@ -201,11 +201,7 @@ class EmpresaModel extends CI_Model {
 	function listFamiliasInEmpresas() {
 		$this->db->select('familia as nombre');
 		$this->db->distinct();
-<<<<<<< HEAD
 		$this->db->from(self::TABLE_EMPRESA);
-=======
-		$this->db->from(self::EMPRESA_TABLE);
->>>>>>> refs/remotes/origin/master
 		$this->db->order_by('nombre');
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {

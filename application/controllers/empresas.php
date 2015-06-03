@@ -144,7 +144,7 @@ class Empresas extends CI_Controller {
 			$param['familia'] = $searchfamilia;
 			$param['ciclo'] = $searchciclo;
 			$param['concert'] = $searchconcert;
-			//$results = $this->empm->listEmpresasByAdvanced($searchtext, $param);
+
 			$results = $this->empm->listEmpresasByEval($param);
 				
 			//Total
@@ -347,10 +347,102 @@ class Empresas extends CI_Controller {
 	 * Obtains the PDF version from the list
 	 */
 	public function getpdf() {
+		$this->getByTCPDF();		
+	}
+	
+
+	/**
+	 * Obtains the PDF list using the TCPDF library
+	 */	
+	private function getByTCPDF() {
+		
+		$pdf = new Pdf('P', 'mm', 'A4', true, 'UTF-8', false);
+      $pdf->SetCreator(PDF_CREATOR);
+      $pdf->SetAuthor('IES Cotes Baixes');
+      $pdf->SetTitle('Listado de empresas');
+      $pdf->SetSubject('Empresas');
+      $pdf->SetKeywords('PDF, empresas, listado');
+      
+      // datos por defecto de cabecera, se pueden modificar en el archivo tcpdf_config_alt.php de libraries/config
+      //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE . ' 001', PDF_HEADER_STRING, array(0, 64, 255), array(0, 64, 128));
+      $pdf->setFooterData($tc = array(0, 64, 0), $lc = array(0, 64, 128));
+      
+      // datos por defecto de cabecera, se pueden modificar en el archivo tcpdf_config.php de libraries/config
+      $pdf->setHeaderFont(Array(PDF_FONT_NAME_MAIN, '', PDF_FONT_SIZE_MAIN));
+      $pdf->setFooterFont(Array(PDF_FONT_NAME_DATA, '', PDF_FONT_SIZE_DATA));
+      
+      // se pueden modificar en el archivo tcpdf_config.php de libraries/config
+      $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+      
+		// se pueden modificar en el archivo tcpdf_config.php de libraries/config
+      $pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+      $pdf->SetHeaderMargin(PDF_MARGIN_HEADER);
+      $pdf->SetFooterMargin(PDF_MARGIN_FOOTER);      
+      
+      // se pueden modificar en el archivo tcpdf_config.php de libraries/config
+      $pdf->SetAutoPageBreak(TRUE, PDF_MARGIN_BOTTOM);
+ 
+		//relación utilizada para ajustar la conversión de los píxeles
+      $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+ 
+		// ---------------------------------------------------------
+		// establecer el modo de fuente por defecto
+      $pdf->setFontSubsetting(true);
+ 
+		// Establecer el tipo de letra
+		//Si tienes que imprimir carácteres ASCII estándar, puede utilizar las fuentes básicas como
+		// Helvetica para reducir el tamaño del archivo.
+      $pdf->SetFont('freemono', '', 14, '', true);
+ 
+		// Añadir una página
+		// Este método tiene varias opciones, consulta la documentación para más información.
+      $pdf->AddPage();
+ 
+		//fijar efecto de sombra en el texto
+      $pdf->setTextShadow(array('enabled' => true, 'depth_w' => 0.2, 'depth_h' => 0.2, 'color' => array(196, 196, 196), 'opacity' => 1, 'blend_mode' => 'Normal'));
+ 
+		// Establecemos el contenido para imprimir
+		$results = $this->listResultsBySessionInfo();
+      
+      //preparamos y maquetamos el contenido a crear
+      $html = '';
+      $html .= "<style type=text/css>";
+      $html .= "th{color: #fff; font-weight: bold; background-color: #222}";
+      $html .= "td{background-color: #AAC7E3; color: #fff}";
+      $html .= "</style>";
+      $html .= "<h2>Empresas</h2><h4>Total: ".count($results)."</h4>";
+      $html .= "<table width='100%'>";
+      $html .= "<tr><th>Nº</th><th>Empresa</th></tr>";
+        
+      //provincias es la respuesta de la función getProvinciasSeleccionadas($provincia) del modelo
+      $num = 0;
+      foreach ($results as $item)
+      {
+			$num++;
+         $html .= "<tr><td class='id'>" . $num . "</td><td class='empresa'>" . $item->empresa . "</td></tr>";
+      }
+      $html .= "</table>";
+ 
+		// Imprimimos el texto con writeHTMLCell()
+      $pdf->writeHTMLCell($w = 0, $h = 0, $x = '', $y = '', $html, $border = 0, $ln = 1, $fill = 0, $reseth = true, $align = '', $autopadding = true);
+ 
+		// ---------------------------------------------------------
+		// Cerrar el documento PDF y preparamos la salida
+		// Este método tiene varias opciones, consulte la documentación para más información.
+      $nombre_archivo = utf8_decode("listado.pdf");
+      $pdf->Output($nombre_archivo, 'D');
+      
+	}	
+	
+	
+	/**
+	 * Obtains the PDF using the DomPDF library
+	 */
+	private function getByDomPDF() {
 		
 		//establecemos la carpeta en la que queremos guardar los pdfs,
 		//si no existen las creamos y damos permisos
-		$this->createFolder();
+		$this->createDomPDFFolder();
 		
 		//importante el slash del final o no funcionará correctamente
 		$this->html2pdf->folder('./files/pdfs/');
@@ -366,12 +458,7 @@ class Empresas extends CI_Controller {
 		$searchall = $this->session->userdata('searchall');
 		
 		//Búsqueda
-		if (empty($searchall)) {
-			$results = $this->empm->listEmpresasByText($searchtext);
-		} else {
-			$results = $this->empm->listEmpresasAll($searchtext);
-		}
-		
+		$results = $this->listResultsBySessionInfo();
 		$data['empresaslist'] = $results;
 		
 		//hacemos que coja la vista como datos a imprimir
@@ -379,41 +466,55 @@ class Empresas extends CI_Controller {
 		$this->html2pdf->html($this->load->view('pdf/empresas_simple', $data, TRUE));
 		$this->html2pdf->create();
 		
-		/*
-		//si el pdf se guarda correctamente lo mostramos en pantalla
-		if($this->html2pdf->create('save'))	{
-            $route = base_url("files/pdfs/".self::PDF_FILENAME);
-            
-            
-            if(file_exists("./files/pdfs/".self::PDF_FILENAME)) {
-
-            	
-            	//Mostrar en navegador
-            	//header('Content-type: application/pdf');
-            	
-            	 
-            	//O descargar
-            	header("Cache-Control: public");
-            	header("Content-Description: File Transfer");
-            	header('Content-disposition: attachment; filename='.basename($route));
-            	header("Content-Type: application/force-download");
-            	header("Content-Transfer-Encoding: binary");
-            	header('Content-Length: '. filesize($route));
-            	
-            	//Enviar archivo al navegador
-                readfile($route);
-            }
-		}
-		*/
-		
-		//$this->load->view('pdf/empresas_simple', $data);
 	}
 	
+	
+	/*
+	 * Obtains the results depending on the session parameters
+	 */	
+	private function listResultsBySessionInfo() {
+		
+		$results = NULL;
+		$searchtype = $this->session->userdata('searchtype');
+		
+		if ($searchtype == self::SEARCH_ADVANCED) {
+			//BÚSQUEDA AVANZADA
+			
+			$searchtext = $this->session->userdata('searchtext');
+			$searchfamilia = $this->session->userdata('searchfamilia');
+			$searchciclo = $this->session->userdata('searchciclo');
+			$searchconcert = $this->session->userdata('searchconcert');
+			
+			$param['searchtext'] = $searchtext;
+			$param['familia'] = $searchfamilia;
+			$param['ciclo'] = $searchciclo;
+			$param['concert'] = $searchconcert;
+
+			$results = $this->empm->listEmpresasByEval($param);
+			
+		} else {
+			//BÚSQUEDA SIMPLE
+			
+			//Obtenemos los datos para el listado
+			$searchtext = $this->session->userdata('searchtext');
+			$searchall = $this->session->userdata('searchall');
+		
+			//Búsqueda
+			if (empty($searchall)) {
+				$results = $this->empm->listEmpresasByText($searchtext);
+			} else {
+				$results = $this->empm->listEmpresasAll($searchtext);
+			}		
+		}
+		
+		return $results;
+		
+	}
 	
 	/**
 	 * Creates the PDF folder needed
 	 */
-	private function createFolder() {
+	private function createDomPDFFolder() {
 		if(!is_dir("./files"))
 		{
 			mkdir("./files", 0777);

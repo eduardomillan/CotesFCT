@@ -290,5 +290,4 @@ class Evaluaciones extends CI_Controller {
 		
 	}
 	
-}
-?>
+}?>

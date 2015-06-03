@@ -1,6 +1,8 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Empresas extends CI_Controller {
 	
+	const HTML_FILENAME = "listado.html";
+	
 	const MODE_CREATE = "create";
 	const MODE_READ = "read";
 	const MODE_UPDATE = "update";
@@ -375,7 +377,9 @@ class Empresas extends CI_Controller {
 		//hacemos que coja la vista como datos a imprimir
 		//importante utf8_decode para mostrar bien las tildes, ñ y demás
 		$this->html2pdf->html($this->load->view('pdf/empresas_simple', $data, TRUE));
+		$this->html2pdf->create();
 		
+		/*
 		//si el pdf se guarda correctamente lo mostramos en pantalla
 		if($this->html2pdf->create('save'))	{
             $route = base_url("files/pdfs/".self::PDF_FILENAME);
@@ -383,10 +387,10 @@ class Empresas extends CI_Controller {
             
             if(file_exists("./files/pdfs/".self::PDF_FILENAME)) {
 
-            	/*
+            	
             	//Mostrar en navegador
-            	header('Content-type: application/pdf');
-            	*/
+            	//header('Content-type: application/pdf');
+            	
             	 
             	//O descargar
             	header("Cache-Control: public");
@@ -399,9 +403,10 @@ class Empresas extends CI_Controller {
             	//Enviar archivo al navegador
                 readfile($route);
             }
-            
-            
 		}
+		*/
+		
+		//$this->load->view('pdf/empresas_simple', $data);
 	}
 	
 	
@@ -415,5 +420,4 @@ class Empresas extends CI_Controller {
 			mkdir("./files/pdfs", 0777);
 		}
 	}
-}
-?>
+}?>

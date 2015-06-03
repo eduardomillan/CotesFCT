@@ -41,12 +41,14 @@
         }
         
  
-        table{
+        table {
             text-align: left;
+            border-collapse: collapse; width: 100%;
         }
         
         table thead {
         		border-bottom: 1px solid #C00;
+				width:100%;
         }
         
         table th {
@@ -55,22 +57,24 @@
  
         /* estilos para el footer y el numero de pagina */
         @page { 
-        	margin: 60px 20px;  
+        	margin-top: 50px;
+        	margin-bottom: 30px;
         }
+        
         #header {
             position: fixed;
             left: 0px; 
-            top: -150px;
+            top: -30px;
             right: 0px;
-            height: 150px;
+            height: 10px;
             background-color: #ffffff;
             color: #000000;
-            text-align: center;
+            text-align: left;
         }
         #footer {
             position: fixed;
             left: 0px;
-            bottom: -150px;
+            bottom: -130px;
             right: 0px;
             height: 150px;
             background-color: #ffffff;
@@ -113,7 +117,7 @@
             	foreach($empresaslist as $item) { 
             		$num++;
             ?>
-            <tr>
+            <tr width="100%">
                 <td><?php echo $num ?></td>
                 <td><?php echo $item->empresa ?></td>
                 <td><?php echo $item->responsable ?></td>

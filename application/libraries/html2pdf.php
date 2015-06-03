@@ -133,10 +133,11 @@ class Html2pdf {
 			show_error("Orientation not set");
 		}
 	    
+		ini_set('memory_limit','1024M');
+		
 	    //Load the DOMPDF libary
 	    require_once("dompdf/dompdf_config.inc.php");
 	    
-	    $old_limit = ini_set("memory_limit", "500M");
 	    $dompdf = new DOMPDF();
 	    $dompdf->load_html($this->html);
 	    $dompdf->set_paper($this->paper_size, $this->orientation);
@@ -160,5 +161,4 @@ class Html2pdf {
 	}
 	
 }
-
 /* End of file Html2pdf.php */

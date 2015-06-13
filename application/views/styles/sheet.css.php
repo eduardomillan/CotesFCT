@@ -16,11 +16,11 @@ fieldset div label {
    margin: .1em 0 0 0;  
 }
 fieldset div span {
-   width: auto;
+   width: 15em;
    padding-right: 0em;
    margin: 0 0 0 0;
    display: block;
-	font-size: 10px;
+	font-size: 11px;
 	font-style: italic;
 	color: red;
 	position: absolute;

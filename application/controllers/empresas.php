@@ -300,7 +300,7 @@ class Empresas extends CI_Controller {
 		$userdata = $this->input->post();
 				
 		//Validate the data		
-		if ($this->validate() == FALSE) {
+		if ($this->validate($mode) == FALSE) {
 			
 			//Variables de página
 			$empresaId = $userdata['empresaId'];
@@ -320,6 +320,9 @@ class Empresas extends CI_Controller {
 			$data['updateResult'] = "";
 			unset($userdata['empresaId']);
 			unset($userdata['nombreEmpresa']);
+			
+			//Fix CIF
+			$userdata['cif'] = $this->fixcif($userdata['cif']);
 				
 			// run insert model to write data to db
 			if ($mode == self::MODE_CREATE) {
@@ -346,7 +349,7 @@ class Empresas extends CI_Controller {
 	/**
 	 * Performs the data validation
 	 */
-	private function validate() {
+	private function validate($mode) {
 		
 		$this->form_validation->set_rules('empresa', 'Empresa', 'required');
 		$this->form_validation->set_rules('cif', 'CIF/NIF', 'required');
@@ -354,6 +357,11 @@ class Empresas extends CI_Controller {
 		$this->form_validation->set_rules('ciutat', 'Población', 'required');
 		$this->form_validation->set_rules('provincia', 'Provincia', 'required');
 		$this->form_validation->set_rules('telf', 'Teléfono', 'required');
+		
+		if ($mode == self::MODE_CREATE) {
+			$this->form_validation->set_rules('cif', 'CIF/NIF', 'callback_checkCIF');
+			$this->form_validation->set_rules('concert', 'Concierto', 'callback_checkConcert');
+		}
 		
 		$this->form_validation->set_error_delimiters('', '');
 		
@@ -508,14 +516,77 @@ class Empresas extends CI_Controller {
 	}
 	
 	/**
-	 * Removes not desired characters from any NIF
+	 * Removes not desired characters from any CIF
 	 */
-	private function fixnifs() {
+	public function fixcifs() {
 		$results = $this->empm->listEmpresasAll();
 		foreach ($results as $item) {
+			$id = $item->id;
+			$cif = $item->cif;
+			if (strpos($cif, " -_.") >= 0) {
+				
+				$newcif = $this->fixcif($cif);
+				
+				$data['id'] = $id;
+				$data['cif'] = $newcif;
+				
+				$this->empm->update($data);
+			} 
 			
 		}
 		
+		$this->index();
+		
+	}
+	
+	/**
+	 * 
+	 * @param unknown $cif
+	 * @return mixed
+	 */
+	private function fixcif($cif) {
+
+		$chars = array(" ", "-", "_", ".");
+		$newcif = str_replace($chars, "", $cif);
+		
+		return $newcif;
+	}
+	
+	
+	/**
+	 * Callback validation function for CodeIgniter, validates the 'concert' field
+	 * @param unknown $str
+	 */
+	public function checkConcert($str) {
+		
+		$res = $this->empm->getEmpresaByConcert($str);
+		
+		if (!empty($res)) {
+			$this->form_validation->set_message('checkConcert', 'Ya existe '.$str);
+			return FALSE;
+		} else {
+			return TRUE;
+		}
+	}
+	
+	/**
+	 * Callback validation function for CodeIgniter, validates the 'CIF' field
+	 * @param unknown $str
+	 */
+	public function checkCIF($str) {
+		
+		if (strlen($str) < 5) return TRUE;
+		
+		$cif = $this->fixcif($str);
+		
+		$res = $this->empm->getEmpresaByIdOrCIF($cif);
+		
+		if (!empty($res)) {
+			$this->form_validation->set_message('checkCIF', 'Ya existe '.$str);
+			return FALSE;
+		} else {
+			return TRUE;
+		}
 	}
 	
 

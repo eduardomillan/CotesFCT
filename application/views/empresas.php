@@ -245,12 +245,16 @@
 	
 	function onSearchAll() {
 		var stext = document.getElementById('searchtext');
+		var sconcert = document.getElementById('searchconcert');
 		var sall = document.getElementById('searchall');
 		if (sall!=null && sall.checked) {
 			stext.disabled = true;
+			sconcert.disabled = true;
 			stext.value = "";
+			sconcert.value = "";
 		} else {
 			stext.disabled = false;
+			sconcert.disabled = false;
 			stext.focus();
 		}
 	}

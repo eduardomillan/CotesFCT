@@ -228,6 +228,23 @@ class EmpresaModel extends CI_Model {
 	
 	
 	/**
+	 * Obtains the 'empresa' row array/s iven its 'concert'
+	 * @param unknown $param
+	 * @return unknown|NULL
+	 */
+	function getEmpresaByConcert($param) {
+		if (strlen($param)) {
+			$this->db->from(self::TABLE_EMPRESA);
+			$this->db->where("concert", $param);
+			$res = $this->db->get()->row_array();
+			return $res;
+		} else {
+			return NULL;
+		}
+	}
+	
+	
+	/**
 	 * Creates the 'empresa' record in the database
 	 * @param unknown $data
 	 * @return boolean

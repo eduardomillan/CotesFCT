@@ -76,8 +76,9 @@
      	</div>	   
 
       <div>
-            <label for="concert">Concierto</label>
+         <label for="concert">Concierto</label>
          <input type="text" id="concert" name="concert" value="" />
+         <span><?php echo form_error('concert'); ?></span>
       </div>	
 		</fieldset>	   
 

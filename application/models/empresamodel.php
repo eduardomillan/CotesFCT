@@ -7,6 +7,9 @@
  */
 class EmpresaModel extends CI_Model {
 
+
+	const RANGE_CURSOS = 15;
+	
 	const TABLE_EMPRESA = "CDE_empresas";
 	const TABLE_FAMILIA = "CDE_famprofesional";
 	const TABLE_CICLO = "CDE_cicleform";
@@ -25,15 +28,21 @@ class EmpresaModel extends CI_Model {
 	 * Obtains a list of 'empresas' given a search text
 	 * @param unknown $text
 	 */
-	function listEmpresasByText($text) {
-		$param = strtolower($text); //To lowercase and then use it in the search
+	function listEmpresasBySimple($param) {
+		$stext = mysql_real_escape_string(strtolower($param['searchtext'])); //To lowercase and then use it in the search
+		$concert = $param['concert'];
 		
 		$this->db->from(self::TABLE_EMPRESA);
-		$this->db->like('lower(empresa)', $param);
-		$this->db->or_like('lower(ciutat)', $param);
-		$this->db->or_like('lower(responsable)', $param);
-		$this->db->or_like('lower(cif)', $param);
+		if (strlen($stext)) {
+			$this->db->where("(lower(empresa) like '%$stext%'", NULL, TRUE);
+			$this->db->or_where("lower(responsable) like '%$stext%'", NULL, TRUE);
+			$this->db->or_where("lower(ciutat) like '%$stext%'", NULL, TRUE);
+			$this->db->or_where("lower(cif) like '%$stext%')", NULL, TRUE);
+		}
+		if (is_numeric($concert)) $this->db->where("concert", $concert);
+		
 		$this->db->order_by('empresa');
+
 		$res = $this->db->get()->result();
 		if (is_array($res) && count($res) >= 1) {
 			return $res;
@@ -57,6 +66,10 @@ class EmpresaModel extends CI_Model {
 	}
 		
 	
+	/**
+	 * @deprecated Use only to fix data
+	 * Function that returns old rows with old evaluation data
+	 */
 	function listEmpresasByOldEval() {
 		
 		$this->db->from(self::TABLE_EMPRESA);
@@ -70,44 +83,7 @@ class EmpresaModel extends CI_Model {
 		} else {
 			return NULL;
 		}		
-		
 	}	
-	
-	
-	/**
-	 * @deprecated use 'listEmpresasByEval' instead
-	 * Obtains a list of 'empresas' given a search text and some extra data
-	 * @param unknown $searchtext the text to search
-	 * @param unknown $data some extra data
-	 */
-	function listEmpresasByAdvanced($searchtext, $data) {
-		$stext = strtolower($searchtext); //To lowercase and then use it in the search
-		$familia = $data['familia'];
-		$concert = $data['concert'];
-		
-		$this->db->from(self::TABLE_EMPRESA);
-		
-		$this->db->where('id >', 0);
-
-		if (strlen($stext)) {
-			$this->db->where("(lower(empresa) like '%$stext%'", NULL, FALSE);
-			$this->db->or_where("lower(responsable) like '%$stext%'", NULL, FALSE);
-			$this->db->or_where("lower(ciutat) like '%$stext%'", NULL, FALSE);
-			$this->db->or_where("lower(cif) like '%$stext%')", NULL, FALSE);
-		}
-
-		if (strlen($familia)) $this->db->where("familia", $familia);
-		if (strlen($concert)) $this->db->where("concert", $concert);
-		
-		$this->db->order_by('familia,empresa');
-		
-		$res = $this->db->get()->result();
-		if (is_array($res) && count($res) >= 1) {
-			return $res;
-		} else {
-			return NULL;
-		}
-	}
 	
 	
 	/**
@@ -118,6 +94,7 @@ class EmpresaModel extends CI_Model {
 		$stext = $data['searchtext'];
 		$familia = $data['familia'];
 		$ciclo = $data['ciclo'];
+		$curso = $data['curso'];
 		$concert = $data['concert'];
 		
 		$tbEmpresa = self::TABLE_EMPRESA;
@@ -128,7 +105,7 @@ class EmpresaModel extends CI_Model {
 		$this->db->select(
 				"$tbEmpresa.id,$tbEmpresa.empresa,$tbEmpresa.responsable,$tbEmpresa.ciutat,
 				$tbEmpresa.cif,$tbEmpresa.telf,$tbEmpresa.email,$tbEmpresa.concert,
-				$tbFamilia.codi as familia,$tbEval.ciclo,$tbEval.curso"
+				$tbFamilia.codi as familia,$tbEval.ciclo,$tbEval.curso,$tbEval.eval_ini,$tbEval.eval_fin"
 				);
 		
 		$this->db->distinct();
@@ -147,11 +124,13 @@ class EmpresaModel extends CI_Model {
 			$this->db->or_where("lower(cif) like '%$stext%')", NULL, FALSE);
 		}
 		
+		if (is_numeric($concert)) $this->db->where("$tbEmpresa.concert", $concert);
 		if (strlen($familia)) $this->db->where("$tbFamilia.codi", $familia);
 		if (strlen($ciclo)) $this->db->where("$tbCiclo.codi", $ciclo);
-		if (strlen($concert)) $this->db->where("concert", $concert);
+		if (strlen($curso)) $this->db->where("$tbEval.curso", $curso);
 		
-		$this->db->order_by("familia,ciclo,curso desc,empresa");
+		
+		$this->db->order_by("familia,ciclo,curso desc,eval_fin,eval_ini,empresa");
 		
 		
 		$res = $this->db->get()->result();
@@ -194,6 +173,23 @@ class EmpresaModel extends CI_Model {
 			return NULL;
 		}
 	}	
+	
+
+	/**
+	 * Calculates the available "cursos" for the "evaluaciones"
+	 */
+	public function loadCursos() {
+	
+		$cursos = array();
+		$year = date ("Y");
+	
+		for ($i = $year-self::RANGE_CURSOS; $i <= $year+1; $i++) {
+			$str = ($i-1)."-".($i);
+			$cursos[$str] = $str;
+		}
+	
+		return $cursos;
+	}
 	
 	/**
 	 * Obtains a list of disctinct familias existing in the 'empresas' table

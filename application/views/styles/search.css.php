@@ -13,8 +13,8 @@
 	left: 5.5em;
 	}
 #search {
-	margin-top: 1.5em;
-	margin-bottom: 1em;
+	margin-top: 2.5em;
+	margin-bottom: 2em;
 	position: relative;
 	left: 2em;
 	top: 2em;
@@ -34,6 +34,9 @@
 	color: blue;
 }
 #results {
+}
+#searchtext {
+	width: 10em;
 }
 #searchconcert {
 	width: 5em;

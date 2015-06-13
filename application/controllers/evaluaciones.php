@@ -8,8 +8,7 @@ class Evaluaciones extends CI_Controller {
 	const MODE_CREATE = "create";
 	const MODE_READ = "read";
 	const MODE_UPDATE = "update";	
-	
-	const RANGE_CURSOS = 15;
+
 	
 	/**
 	 * Constructor
@@ -68,7 +67,7 @@ class Evaluaciones extends CI_Controller {
 			$data['cicloslist'] = $this->empm->listCiclos();
 			
 			//Crear lista de cursos
-			$data['cursoslist'] = $this->loadCursos();
+			$data['cursoslist'] = $this->empm->loadCursos();
 			
 			//Lista de valores para la evaluación
 			$data['valoreslist'] = $this->loadValores();
@@ -228,23 +227,6 @@ class Evaluaciones extends CI_Controller {
 				'observaciones'=>''
 		);
 		return $evaluacion;
-	}
-	
-	/**
-	 * Calculates the available "cursos" for the "evaluaciones"
-	 */
-	private function loadCursos() {
-		
-		$cursos = array();
-		$year = date ("Y");
-
-		for ($i = $year-self::RANGE_CURSOS; $i <= $year+1; $i++) {
-			$str = ($i-1)."-".($i);
-			$cursos[$str] = $str;
-		}
-		
-		return $cursos;
-		
 	}
 	
 	

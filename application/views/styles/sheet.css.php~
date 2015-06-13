@@ -59,19 +59,17 @@ form #telf_instructor, form #provincia
 {
 	width: 10em;
 }
-form #email_gerent, form #email, form #email_instructor {
-	width: 12em;
-}
-form #activitat {
+form #activitat, form #instructor, form #email, form #email_instructor, 
+form #email_gerent {
 	width: 15em;
 }
 form #horari_laboral, form #nom_comercial, form #ciutat {
 	width: 20em;
 }
-form #web, form #responsable, form #instructor {
+form #web {
 	width: 25em;
 }
-form #empresa, form #direccion {
+form #empresa, form #direccion, form #responsable {
 	width: 30em;
 }
 form textarea {

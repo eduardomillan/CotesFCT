@@ -49,14 +49,12 @@ table td {
                 <th id="conc">Conc.</th>
             </tr>
         </thead>
-    </table>
-
+        <tbody>
             <?php
             	$num = 0; 
             	foreach($empresaslist as $item) { 
             		$num++;
             ?>
-         	<table>
             <tr>
                 <td id="num"><?php echo $num ?></td>
                 <td id="empresa"><?php echo $item->empresa ?></td>
@@ -66,7 +64,8 @@ table td {
                 <td id="cif"><?php echo $item->cif ?></td>
                 <td id="conc"><?php echo $item->concert ?></td>
             </tr>
-				</table>
             <?php } ?>
+        </tbody>
+    </table>
 </body>
 </html>    

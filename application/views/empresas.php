@@ -52,6 +52,18 @@
 		);
 		echo form_input($datos);
 		
+		//Concierto
+		echo form_label('Concierto: ', 'searchconcert');
+		
+		$datos = array(
+				'name'        => 'searchconcert',
+				'id'          => 'searchconcert',
+				'value'       => $this->session->userdata('searchconcert'),
+				'size'        => '15',
+				'onkeypress'  => 'searchIfEnter(event)'
+		);
+		echo form_input($datos);
+		
 		
 		//Ciclos, familias y concierto
 		if (!empty($advancedsearch)) {
@@ -64,7 +76,7 @@
 				$options[$fam->codi] = $fam->codi;
 			endforeach;
 			
-			echo form_dropdown('searchfamilia', $options, $this->session->userdata('searchfamilia'));
+			echo form_dropdown('searchfamilia', $options, $searchfamilia);
 			
 			
 			//Ciclos
@@ -75,20 +87,18 @@
 				$options[$cic->codi] = $cic->codi;
 			endforeach;
 						
-			echo form_dropdown('searchciclo', $options, $this->session->userdata('searchciclo'));
+			echo form_dropdown('searchciclo', $options, $searchciclo);
 			
+			//Curso
+         echo form_label('Curso: ', 'searchcurso');		
+			$options = array();
+			$options[''] = '';
+			foreach($cursoslist as $cur):
+				$options[$cur] = $cur;
+			endforeach;
 			
-			//Concierto
-			echo form_label('Concierto: ', 'searchconcert');
+			echo form_dropdown('searchcurso', $options, $searchcurso);
 			
-			$datos = array(
-					'name'        => 'searchconcert',
-					'id'          => 'searchconcert',
-					'value'       => $this->session->userdata('searchconcert'),
-					'size'        => '15',
-					'onkeypress'  => 'searchIfEnter(event)'
-			);
-			echo form_input($datos);
 		}
 		?>
 		
@@ -150,7 +160,7 @@
 		if (empty($advancedsearch)) {
 			$this->table->set_heading('Nº','Empresa','Gerente','Población','Telf.','@','CIF','Conc.',''); //crea la primera fila de la tabla con el encabezado
 		} else {
-			$this->table->set_heading('Nº','Ciclo','Curso','Empresa','Gerente','Población','Telf.','@','CIF','Conc.','');
+			$this->table->set_heading('Nº','Ciclo','Curso','EF','EI','Empresa','Población','Telf.','@','CIF','Conc.','');
 		}
 		$tmp = array ( 'table_open'  => '<table border="1" cellpadding="2" cellspacing="1">' ); //modifica el espaciado
 		$this->table->set_template($tmp); //aplico los cambios de modificacion anterior
@@ -203,8 +213,9 @@
 					$cont,
 					$dato->ciclo,
 					$dato->curso,
+					$dato->eval_fin,
+					$dato->eval_ini,
 					$dato->empresa,
-					$dato->responsable,
 					$dato->ciutat,
 					$dato->telf,
 					$link_email,

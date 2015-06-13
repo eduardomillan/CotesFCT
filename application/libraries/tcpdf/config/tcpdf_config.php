@@ -66,7 +66,7 @@
 //define ('K_PATH_IMAGES', '');
 
 /**
- * Deafult image logo used be the default Header() method.
+ * Deafult image <img src="file:///media/MITNICK/datos/FCT/cotesfct/application/libraries/tcpdf/examples/images/logo_example.png" alt="" /><img src="file:///media/MITNICK/datos/FCT/cotesfct/application/libraries/tcpdf/examples/images/logo_example.png" alt="" />logo used be the default Header() method.
  * Please set here your own logo or an empty string to disable it.
  */
 //define ('PDF_HEADER_LOGO', '');
@@ -104,17 +104,17 @@ define ('PDF_CREATOR', 'TCPDF');
 /**
  * Document author.
  */
-define ('PDF_AUTHOR', 'TCPDF');
+define ('PDF_AUTHOR', 'IES Cotes Baixes');
 
 /**
  * Header title.
  */
-define ('PDF_HEADER_TITLE', 'TCPDF Example');
+define ('PDF_HEADER_TITLE', '');
 
 /**
  * Header description string.
  */
-define ('PDF_HEADER_STRING', "by Nicola Asuni - Tecnick.com\nwww.tcpdf.org");
+define ('PDF_HEADER_STRING', "");
 
 /**
  * Document unit of measure [pt=point, mm=millimeter, cm=centimeter, in=inch].

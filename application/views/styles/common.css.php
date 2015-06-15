@@ -166,6 +166,11 @@ input[type="submit"], .button {
 	font-family: inherit;
 	font-weight: inherit;	
 }
+#buttonOff {
+	border-color: grey;
+	background-color: grey;
+	text-decoration: line-through;
+}
 input[type="submit"]:active, .button:active {
 	color: grey;
 	background: white;

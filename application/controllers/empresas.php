@@ -15,6 +15,7 @@ class Empresas extends CI_Controller {
 	const PAGE_ROWS = 20;
 	
 	const PDF_FILENAME = "listado.pdf";
+	const PDF_MAX_ROWS = 400; //Maximum rows allowed to be converted
 	
 	const SEARCH_SIMPLE = "searchSimple";
 	const SEARCH_ADVANCED = "searchAdvanced";
@@ -54,6 +55,7 @@ class Empresas extends CI_Controller {
 		$data['empresaslist'] = NULL;
 		$data['total'] = -1;
 		$data['advancedsearch'] = NULL;
+		$data['pdfmaxrows'] = self::PDF_MAX_ROWS;
 		
 		//Post fields
 		if (empty($_POST)) {
@@ -120,6 +122,7 @@ class Empresas extends CI_Controller {
 		$data['empresaslist'] = NULL;
 		$data['total'] = -1;
 		$data['advancedsearch'] = "advanced";
+		$data['pdfmaxrows'] = self::PDF_MAX_ROWS;
 		
 		if (empty($_POST)) {
 			$searchtext = $this->session->userdata('searchtext');

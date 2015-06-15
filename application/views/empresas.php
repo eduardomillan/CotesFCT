@@ -20,13 +20,17 @@
 		</div>	
 		<?php } ?>	
 		<?php 	
-		if (isset($total) && $total > 0) { ?>	
+		if (isset($total) && $total > 0 && $total <= $pdfmaxrows) { ?>	
 		<div id="buttonPDF">
 			<a class="button" href="<?php echo site_url('empresas/getpdf'); ?>" title="PDF">
 				<i class="fa fa-file-pdf-o fa-1x"></i> PDF
 			</a>
 		</div>
-		<?php } ?>	
+		<?php } elseif(isset($total) && $total > $pdfmaxrows) {?>	
+			<a id="buttonOff" class="button" href="#" title="Máximo excedido: <?php echo $pdfmaxrows ?>">
+				<i class="fa fa-file-pdf-o fa-1x"></i> PDF
+			</a>
+		<?php } ?>
 	</div>	
 	
 	

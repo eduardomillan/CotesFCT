@@ -4,8 +4,8 @@
 	document.getElementById("modo").textContent = "edición";
 	
 	//Disable key fields
-	document.getElementById("cif").disabled = true;
-	//document.getElementById("concert").disabled = true;	
+	document.getElementById("cif").readOnly = true;
+	document.getElementById("cif").className = "disabled";
 	
 	//Set focus
 	form1['empresa'].focus();

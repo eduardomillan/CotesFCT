@@ -51,16 +51,16 @@ form #id, form #cp, form #concert, form #evaluacio, form #evalua_anterior, form 
 	width: 5em;
 }
 form #curs, form #telf, form #telf2, form #fax {
-	width: 8em;
+	width: 7em;
 }
 form #cif, form #nif_gerent, form #telf_gerent, 
 form #nif_instructor, form #carrec_instructor,
 form #telf_instructor, form #provincia
 {
-	width: 10em;
+	width: 8em;
 }
 form #email_gerent, form #email, form #email_instructor {
-	width: 12em;
+	width: 16em;
 }
 form #activitat {
 	width: 15em;

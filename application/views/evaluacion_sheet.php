@@ -39,7 +39,7 @@
 		<div id="fields">
 		<?php echo form_hidden('id',$evaluacion['id']); ?>
 		<fieldset id="basic">
-      <legend>Nuevo registro</legend>
+      <legend>Datos de la evaluación</legend>
 			
 			<div>
 				<label for="curso" class="required" title="Obligatorio">Curso</label>

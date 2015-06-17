@@ -295,15 +295,15 @@ class Empresas extends CI_Controller {
 	
 	
 	/**
-	 * Updates the data
+	 * Saves the data on new/edit
 	 */
 	private function save($mode) {
 		
 		//Build array for the model
 		$userdata = $this->input->post();
-				
+
 		//Validate the data		
-		if ($this->validate($mode) == FALSE) {
+		if ($this->validate($mode, $userdata) == FALSE) {
 			
 			//Variables de página
 			$empresaId = $userdata['empresaId'];
@@ -319,13 +319,14 @@ class Empresas extends CI_Controller {
 			$this->load->view(self::PAGE_SHEET, $data);
 			
 		} else {// passed validation proceed to post success logic
-			
+
+
 			$data['updateResult'] = "";
 			unset($userdata['empresaId']);
 			unset($userdata['nombreEmpresa']);
 			
 			//Fix CIF
-			$userdata['cif'] = $this->fixcif($userdata['cif']);
+			//$userdata['cif'] = $this->fixcif($userdata['cif']);
 				
 			// run insert model to write data to db
 			if ($mode == self::MODE_CREATE) {
@@ -352,18 +353,19 @@ class Empresas extends CI_Controller {
 	/**
 	 * Performs the data validation
 	 */
-	private function validate($mode) {
+	private function validate($mode, $userdata) {
+
+		$id = $userdata['id'];
 		
 		$this->form_validation->set_rules('empresa', 'Empresa', 'required');
-		$this->form_validation->set_rules('cif', 'CIF/NIF', 'required');
 		$this->form_validation->set_rules('cp', 'Código Postal', 'required');
 		$this->form_validation->set_rules('ciutat', 'Población', 'required');
 		$this->form_validation->set_rules('provincia', 'Provincia', 'required');
 		$this->form_validation->set_rules('telf', 'Teléfono', 'required');
-		
+		$this->form_validation->set_rules('concert', 'Concierto', 'callback_checkConcert['.$id.']');
+
 		if ($mode == self::MODE_CREATE) {
-			$this->form_validation->set_rules('cif', 'CIF/NIF', 'callback_checkCIF');
-			$this->form_validation->set_rules('concert', 'Concierto', 'callback_checkConcert');
+			$this->form_validation->set_rules('cif', 'CIF/NIF', 'required|callback_checkCIF');
 		}
 		
 		$this->form_validation->set_error_delimiters('', '');
@@ -560,11 +562,14 @@ class Empresas extends CI_Controller {
 	 * Callback validation function for CodeIgniter, validates the 'concert' field
 	 * @param unknown $str
 	 */
-	public function checkConcert($str) {
-		
+	public function checkConcert($str, $id) {
+
+		if (!strlen($str)) return TRUE;		
+
 		$res = $this->empm->getEmpresaByConcert($str);
 		
-		if (!empty($res)) {
+		//Comprobar que no es cero y que pertenece a otra empresa
+		if (!empty($res) && ($res['concert'] > 0) && ($res['id'] != $id)) {
 			$this->form_validation->set_message('checkConcert', 'Ya existe '.$str);
 			return FALSE;
 		} else {

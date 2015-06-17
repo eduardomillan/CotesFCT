@@ -145,6 +145,11 @@ select, input {
    padding: 3px;
    margin: 0.1em 0.2em 0.2em 0.1em;
 }
+select:disabled, input:disabled, textarea:disabled, input.disabled {
+	color: black;
+	border-color: grey;
+	background-color: lightgrey;
+}
 input[type="submit"], .button {
 	height: 30px;
 	line-height: 28px;

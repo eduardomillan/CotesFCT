@@ -363,10 +363,7 @@ class Empresas extends CI_Controller {
 		$this->form_validation->set_rules('provincia', 'Provincia', 'required');
 		$this->form_validation->set_rules('telf', 'Teléfono', 'required');
 		$this->form_validation->set_rules('concert', 'Concierto', 'callback_checkConcert['.$id.']');
-
-		if ($mode == self::MODE_CREATE) {
-			$this->form_validation->set_rules('cif', 'CIF/NIF', 'required|callback_checkCIF');
-		}
+		$this->form_validation->set_rules('cif', 'CIF/NIF', 'required|callback_checkCIF['.$id.']');
 		
 		$this->form_validation->set_error_delimiters('', '');
 		
@@ -581,7 +578,7 @@ class Empresas extends CI_Controller {
 	 * Callback validation function for CodeIgniter, validates the 'CIF' field
 	 * @param unknown $str
 	 */
-	public function checkCIF($str) {
+	public function checkCIF($str, $id) {
 		
 		if (strlen($str) < 5) return TRUE;
 		
@@ -589,7 +586,7 @@ class Empresas extends CI_Controller {
 		
 		$res = $this->empm->getEmpresaByIdOrCIF($cif);
 		
-		if (!empty($res)) {
+		if (!empty($res) && strlen($res['cif']) && ($res['id'] != $id)) {
 			$this->form_validation->set_message('checkCIF', 'Ya existe '.$str);
 			return FALSE;
 		} else {

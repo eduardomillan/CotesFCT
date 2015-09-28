@@ -9,8 +9,16 @@
 
 <?php $this->load->view('top');?>
 
-	<h1>Búsqueda de empresas</h1>
 	
+	<?php
+		//Encabezado de la página, según tipo de búsqueda
+		if (empty($advancedsearch)) { 
+			echo heading("Todas las empresas");
+		} else {
+			echo heading("Sólo empresas con evaluaciones");
+		}
+	?>
+
 	<div id="actions">
 		<?php if ($nivel == 1) { ?>
 		<div id="buttonNew">

@@ -325,8 +325,10 @@ class Empresas extends CI_Controller {
 			unset($userdata['empresaId']);
 			unset($userdata['nombreEmpresa']);
 			
-			//Fix CIF
+			//Fix CIF and NIFs
 			$userdata['cif'] = $this->fixcif($userdata['cif']);
+			$userdata['nif_gerent'] = $this->fixcif($userdata['nif_gerent']);
+			$userdata['nif_instructor'] = $this->fixcif($userdata['nif_instructor']);
 				
 			// run insert model to write data to db
 			if ($mode == self::MODE_CREATE) {
@@ -542,12 +544,14 @@ class Empresas extends CI_Controller {
 	}
 	
 	/**
-	 * 
+	 * Fix the 'cif' field and similar database fields removing not desired characters
 	 * @param unknown $cif
 	 * @return mixed
 	 */
 	private function fixcif($cif) {
-
+		
+		if (!strlen($cif)) return $cif;
+		
 		$chars = array(" ", "-", "_", ".");
 		$newcif = str_replace($chars, "", $cif);
 		
